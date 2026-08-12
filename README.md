@@ -98,3 +98,12 @@ node bin/karmis.js "https://example.com/job-posting"
 # npm start ile çalıştırma
 npm start "https://example.com/job-posting"
 ```
+
+---
+
+## Geliştirici ve Proje Sahibi
+
+- **Geliştirici:** Behrouz Bagherzadeh
+- **GitHub Profil:** [itisbehrouz](https://github.com/itisbehrouz)
+- **E-posta:** be.bagherzadeh@gmail.com
+- **Repository:** [itisbehrouz/karmis](https://github.com/itisbehrouz/karmis)
