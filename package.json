@@ -1,0 +1,26 @@
+{
+  "name": "kariyer-mimari",
+  "version": "1.0.0",
+  "description": "Yapay Zeka Destekli Üst Düzey Yönetici İlan İnceleme ve Kariyer Operasyon Engine",
+  "main": "bin/kariyer-mimari.js",
+  "bin": {
+    "kariyer-mimari": "bin/kariyer-mimari.js"
+  },
+  "scripts": {
+    "start": "node bin/kariyer-mimari.js",
+    "test": "node lib/evaluator.js"
+  },
+  "keywords": [
+    "career",
+    "job-evaluation",
+    "ai-agent",
+    "executive-search",
+    "kariyer-mimari",
+    "career-ops"
+  ],
+  "author": "KariyerMimari Open Source Team",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^9.4.3"
+  }
+}

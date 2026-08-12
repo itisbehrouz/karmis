@@ -1,0 +1,18 @@
+# Personal & Sensitive Data Protection
+cv.md
+config.json
+.env
+*.env
+*.db
+data/
+artifacts/
+logs/
+.system_generated/
+
+# Dependency directories
+node_modules/
+npm-debug.log*
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
