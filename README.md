@@ -20,7 +20,7 @@ Geleneksel iş arama yöntemleri çöp ilanlar, uyuşmayan kıdem seviyeleri ve 
 
 ### 1. Depoyu Klonlayın
 ```bash
-git clone https://github.com/itisbehrouz/KariyerMimari.git
+git clone https://github.com/kullanici/KariyerMimari.git
 cd KariyerMimari
 npm install
 ```
