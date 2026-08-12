@@ -54,6 +54,54 @@ Her ilan analiz edildiğinde aşağıdaki 7 standart modül üretilir:
 
 ---
 
+## Örnek İlan Analiz Raporu (CLI Çıktı Örneği)
+
+Aşağıda `npx kariyer-mimari <ilan-url>` çalıştırıldığında üretilen jenerik örnek analiz çıktısı verilmiştir:
+
+### 1. Hızlı Okuma Özet Tablosu
+
+| Kriter | Detay ve Analiz |
+| :--- | :--- |
+| **Şirket & Lokasyon** | **Global Tech Enterprise** | İstanbul (Hibrit) |
+| **Sektör & Yapı** | Kurumsal Yazılım, Büyümekte Olan Teknoloji & Veri Dev |
+| **Aday Uyum Puanı** | **%95** (Mükemmel Uyum) |
+| **Kıdem Uyum Seviyesi** | **Tam Uyum** (15+ Yıl Liderlik vs. Direktör Şartı) |
+| **Maaş Benchmark'ı** | **220.000 TL – 280.000 TL Net / Ay** |
+| **Karar & Aksiyon** | **BAŞVURULACAK** (%80+ Eşik Barajı Üzerinde) |
+
+---
+
+### 2. Şirket Finansal & Operasyonel Göstergeleri
+
+| Gösterge Metriği | Rakam / Değer | Kapsam ve Açıklama |
+| :--- | :--- | :--- |
+| **Global Yıllık Ciro** | **15 Milyar USD** | Küresel Gelir Bütçesi |
+| **Global Çalışan Sayısı** | **45.000 Kişi** | 80+ Ülkedeki Global İş Gücü |
+| **Yıllık BT/Ar-Ge Bütçesi** | **2 Milyar USD** | Yıllık Dijital İnovasyon Yatırımı |
+| **Operasyonel Ülke** | **80+ Ülke** | Küresel Operasyon Hacmi |
+
+*(Sistem otomatik olarak beyaz arka planlı, açık mavi sütunlu SVG grafik üretir)*
+
+---
+
+### 3. LinkedIn Executive Outreach Notu (Örnek)
+
+> "Sayın [İlgili İK Direktörü / Hiring Manager], Global Tech Enterprise'ın dijital dönüşüm vizyonunu yakından takip ediyorum. 15 yılı aşkın iş zekası mimarisi, veri yönetişimi ve üretken AI adaptasyonu tecrübemle açık bulunan Dijital Dönüşüm Direktörü pozisyonu hakkında kısa bir görüşme gerçekleştirmek isterim."
+
+---
+
+### 4. Mülakat Hazırlık Asistanı (STAR Metodu Örneği)
+
+> **Soru:** Şirket genelinde veri analitiği ve AI dönüşümünü nasıl yönettiniz?
+> 
+> **Yanıt (STAR Metodu):**
+> - **Situation (Durum):** 7 farklı uluslararası iş biriminde karar destek süreçleri manuel ve yavaştı.
+> - **Task (Görev):** Merkezi veri mimarisi ve üretken AI adaptasyonunu kurarak iş birimlerini hızlandırmak.
+> - **Action (Eylem):** Power BI dashboard mimarisini kurup 5 kişilik analitik ekibine liderlik ettim.
+> - **Result (Sonuç):** Teslimat sürelerini 18 aydan 6 aya indirdik ve operasyonel hızda %67 artış sağladık.
+
+---
+
 ## Lisans
 
 Bu proje **MIT Lisansı** ile lisanslanmıştır. Herkes tarafından özgürce kullanılabilir ve geliştirilebilir.
