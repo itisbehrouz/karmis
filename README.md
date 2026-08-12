@@ -1,12 +1,12 @@
-# KariyerMimari (AI Career Operations Engine)
+# KARMİS (Kariyer Mimarisi ve İlan Süzgeci)
 
-**KariyerMimari**, üst düzey yöneticiler (Director, Head, C-Level) ve kıdemli profesyoneller için geliştirilmiş, yapay zeka destekli açık kaynaklı bir **İlan İnceleme, Analiz ve Kariyer Yönetim Motorudur**.
+**KARMİS** (**K**ariyer **M**imarisi ve **İ**lan **S**üzgeci), üst düzey yöneticiler (Director, Head, C-Level) ve kıdemli profesyoneller için geliştirilmiş, yapay zeka destekli açık kaynaklı bir **İlan İnceleme, Analiz ve Kariyer Operasyon Motorudur**.
 
 ---
 
-## Neden KariyerMimari?
+## Neden KARMİS?
 
-Geleneksel iş arama yöntemleri çöp ilanlar, uyuşmayan kıdem seviyeleri ve belirsiz maaş skalaları ile dolu. **KariyerMimari**, adayların zamanını korumak için tasarlanmıştır:
+Geleneksel iş arama yöntemleri çöp ilanlar, uyuşmayan kıdem seviyeleri ve belirsiz maaş skalaları ile dolu. **KARMİS**, adayların zamanını korumak için tasarlanmıştır:
 
 - **Sade & Açık Mavi SVG Grafikler:** Şirketlerin Ciro, Bütçe, Çalışan ve Tesis sayılarını temiz beyaz arka planda görselleştirir.
 - **%80 Eşik Barajı & Otomatik Filtreler:** Mevzuat/BDDK yükü olan, kıdem altı (junior) veya doğrudan kota bazlı saha satışı ilanlarını otomatik eler.
@@ -20,8 +20,8 @@ Geleneksel iş arama yöntemleri çöp ilanlar, uyuşmayan kıdem seviyeleri ve 
 
 ### 1. Depoyu Klonlayın
 ```bash
-git clone https://github.com/kullanici/KariyerMimari.git
-cd KariyerMimari
+git clone https://github.com/behrouzbagherzadeh/karmis.git
+cd karmis
 npm install
 ```
 
@@ -35,7 +35,7 @@ cp templates/cv.example.md cv.md
 
 ### 3. İlan Analizini Çalıştırın
 ```bash
-npx kariyer-mimari <ilan-url>
+npx karmis <ilan-url>
 ```
 
 ---
@@ -56,13 +56,13 @@ Her ilan analiz edildiğinde aşağıdaki 7 standart modül üretilir:
 
 ## Örnek İlan Analiz Raporu (CLI Çıktı Örneği)
 
-Aşağıda `npx kariyer-mimari <ilan-url>` çalıştırıldığında üretilen jenerik örnek analiz çıktısı verilmiştir:
+Aşağıda `npx karmis <ilan-url>` çalıştırıldığında üretilen jenerik örnek analiz çıktısı verilmiştir:
 
 ### 1. Hızlı Okuma Özet Tablosu
 
 | Kriter | Detay ve Analiz |
 | :--- | :--- |
-| **Şirket & Lokasyon** | **Global Tech Enterprise** | İstanbul (Hibrit) |
+| **Şirket & Lokasyon** | **Global Tech Enterprise** \| İstanbul (Hibrit) |
 | **Sektör & Yapı** | Kurumsal Yazılım, Büyümekte Olan Teknoloji & Veri Dev |
 | **Aday Uyum Puanı** | **%95** (Mükemmel Uyum) |
 | **Kıdem Uyum Seviyesi** | **Tam Uyum** (15+ Yıl Liderlik vs. Direktör Şartı) |
@@ -102,6 +102,14 @@ Aşağıda `npx kariyer-mimari <ilan-url>` çalıştırıldığında üretilen j
 
 ---
 
-## Lisans
+## Geliştirici (Developer)
 
-Bu proje **MIT Lisansı** ile lisanslanmıştır. Herkes tarafından özgürce kullanılabilir ve geliştirilebilir.
+**Behrouz Bagherzadeh**
+- GitHub: [@behrouzbagherzadeh](https://github.com/behrouzbagherzadeh)
+
+---
+
+## Lisans (License)
+
+Bu proje **MIT Lisansı** altında açık kaynak olarak lisanslanmıştır. Detaylı bilgi ve haklar için [LICENSE](file:///Users/behrouzbagherzadeh/Developer/KariyerMimari/LICENSE) dosyasına göz atabilirsiniz.
+

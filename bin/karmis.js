@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * KariyerMimari CLI Tool
- * Usage: npx kariyer-mimari <job-url>
+ * KARMİS CLI Tool
+ * Usage: npx karmis <job-url>
  */
 
 const { evaluateJobPosting } = require('../lib/evaluator');
@@ -12,10 +12,10 @@ const args = process.argv.slice(2);
 const jobUrl = args[0];
 
 if (!jobUrl) {
-  console.log('KariyerMimari CLI v1.0.0');
-  console.log('Kullanım: npx kariyer-mimari <ilan-url>');
+  console.log('KARMİS CLI v1.0.0');
+  console.log('Kullanım: npx karmis <ilan-url>');
   process.exit(0);
 }
 
-console.log(`[KariyerMimari] İlan analiz ediliyor: ${jobUrl}`);
+console.log(`[KARMİS] İlan analiz ediliyor: ${jobUrl}`);
 // CLI logic demo

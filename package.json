@@ -1,25 +1,34 @@
 {
-  "name": "kariyer-mimari",
+  "name": "karmis",
   "version": "1.0.0",
-  "description": "Yapay Zeka Destekli Üst Düzey Yönetici İlan İnceleme ve Kariyer Operasyon Engine",
-  "main": "bin/kariyer-mimari.js",
+  "description": "KARMİS - Yapay Zeka Destekli Üst Düzey Yönetici İlan İnceleme ve Kariyer Operasyon Motoru",
+  "main": "bin/karmis.js",
   "bin": {
-    "kariyer-mimari": "bin/kariyer-mimari.js"
+    "karmis": "bin/karmis.js"
   },
   "scripts": {
-    "start": "node bin/kariyer-mimari.js",
+    "start": "node bin/karmis.js",
     "test": "node lib/evaluator.js"
   },
   "keywords": [
+    "karmis",
     "career",
     "job-evaluation",
     "ai-agent",
     "executive-search",
-    "kariyer-mimari",
+    "kariyer-mimarisi",
     "career-ops"
   ],
-  "author": "KariyerMimari Open Source Team",
+  "author": "Behrouz Bagherzadeh <https://github.com/behrouzbagherzadeh>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/behrouzbagherzadeh/karmis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/behrouzbagherzadeh/karmis/issues"
+  },
+  "homepage": "https://github.com/behrouzbagherzadeh/karmis#readme",
   "dependencies": {
     "better-sqlite3": "^9.4.3"
   }
