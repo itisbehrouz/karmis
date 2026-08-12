@@ -105,7 +105,7 @@ Aşağıda `npx karmis <ilan-url>` çalıştırıldığında üretilen jenerik �
 ## Geliştirici (Developer)
 
 **Behrouz Bagherzadeh**
-- GitHub: [@behrouzbagherzadeh](https://github.com/behrouzbagherzadeh)
+- GitHub: [@itisbehrouz](https://github.com/itisbehrouz)
 
 ---
 
