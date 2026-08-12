@@ -1,26 +1,26 @@
-# KariyerMimari 🎯 (AI Career Operations Engine)
+# KariyerMimari (AI Career Operations Engine)
 
 **KariyerMimari**, üst düzey yöneticiler (Director, Head, C-Level) ve kıdemli profesyoneller için geliştirilmiş, yapay zeka destekli açık kaynaklı bir **İlan İnceleme, Analiz ve Kariyer Yönetim Motorudur**.
 
 ---
 
-## 🌟 Neden KariyerMimari?
+## Neden KariyerMimari?
 
 Geleneksel iş arama yöntemleri çöp ilanlar, uyuşmayan kıdem seviyeleri ve belirsiz maaş skalaları ile dolu. **KariyerMimari**, adayların zamanını korumak için tasarlanmıştır:
 
-- 📊 **Sade & Açık Mavi SVG Grafikler:** Şirketlerin Ciro, Bütçe, Çalışan ve Tesis sayılarını temiz beyaz arka planda görselleştirir.
-- 🎯 **%80 Eşik Barajı & Otomatik Filtreler:** Mevzuat/BDDK yükü olan, kıdem altı (junior) veya doğrudan kota bazlı saha satışı ilanlarını otomatik eler.
-- 💰 **4 Faktörlü Maaş Kesişimi:** Şirket Ölçeği x Sektör x Lokasyon x Seniority kesişimiyle gerçekçi mülakat açılış rakamları üretir.
-- 🤝 **LinkedIn Executive Outreach & STAR Mülakat Asistanı:** İlgili İK liderine doğrudan atılacak bağlantı notları ve STAR yöntemiyle mülakat hazırlık soruları üretir.
-- 🔒 **%100 Gizlilik:** Adayın kişisel CV'si, telefon numarası ve özel verileri yerel ortamda kalır; GitHub'a asla yüklenmez.
+- **Sade & Açık Mavi SVG Grafikler:** Şirketlerin Ciro, Bütçe, Çalışan ve Tesis sayılarını temiz beyaz arka planda görselleştirir.
+- **%80 Eşik Barajı & Otomatik Filtreler:** Mevzuat/BDDK yükü olan, kıdem altı (junior) veya doğrudan kota bazlı saha satışı ilanlarını otomatik eler.
+- **4 Faktörlü Maaş Kesişimi:** Şirket Ölçeği x Sektör x Lokasyon x Seniority kesişimiyle gerçekçi mülakat açılış rakamları üretir.
+- **LinkedIn Executive Outreach & STAR Mülakat Asistanı:** İlgili İK liderine doğrudan atılacak bağlantı notları ve STAR yöntemiyle mülakat hazırlık soruları üretir.
+- **%100 Gizlilik:** Adayın kişisel CV'si, telefon numarası ve özel verileri yerel ortamda kalır; GitHub'a asla yüklenmez.
 
 ---
 
-## 🛠️ Kurulum ve Kullanım
+## Kurulum ve Kullanım
 
 ### 1. Depoyu Klonlayın
 ```bash
-git clone https://github.com/kullanici/KariyerMimari.git
+git clone https://github.com/itisbehrouz/KariyerMimari.git
 cd KariyerMimari
 npm install
 ```
@@ -40,7 +40,7 @@ npx kariyer-mimari <ilan-url>
 
 ---
 
-## 📐 Standart Analiz Çıktı Formatı
+## Standart Analiz Çıktı Formatı
 
 Her ilan analiz edildiğinde aşağıdaki 7 standart modül üretilir:
 
@@ -54,6 +54,6 @@ Her ilan analiz edildiğinde aşağıdaki 7 standart modül üretilir:
 
 ---
 
-## 📄 Lisans
+## Lisans
 
 Bu proje **MIT Lisansı** ile lisanslanmıştır. Herkes tarafından özgürce kullanılabilir ve geliştirilebilir.
