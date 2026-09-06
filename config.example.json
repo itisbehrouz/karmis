@@ -1,0 +1,22 @@
+{
+  "project": "KARMİS",
+  "matchThreshold": 80,
+  "defaultCurrency": "TRY",
+  "filters": {
+    "penalties": {
+      "regulatoryCompliance": -20,
+      "downlevelingJunior": -25,
+      "fieldQuotaSales": -25
+    },
+    "boosts": {
+      "digitalTransformation": 15,
+      "biArchitecture": 15
+    }
+  },
+  "chartStyle": {
+    "backgroundColor": "#ffffff",
+    "barFill": "#bfdbfe",
+    "barBorder": "#2563eb",
+    "borderRadius": 8
+  }
+}

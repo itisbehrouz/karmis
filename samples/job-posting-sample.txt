@@ -1,0 +1,13 @@
+Company: CloudScale Systems
+Role: Staff AI & Backend Engineer
+Location: Remote
+
+About the Role:
+CloudScale Systems is looking for a Staff AI & Backend Engineer to lead our enterprise platform initiatives. You will architect robust distributed microservices, design event-driven systems, and embed generative AI capabilities into production applications.
+
+Requirements:
+- 8+ years of software engineering experience.
+- Deep expertise in Node.js, TypeScript, and Python.
+- Proven track record with SQL, PostgreSQL, and Docker containerization.
+- Experience building AI / LLM agentic workflows and RESTful APIs.
+- Strong system design and cross-functional team leadership.

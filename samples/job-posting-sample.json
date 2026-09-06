@@ -1,0 +1,18 @@
+{
+  "company": "CloudScale Systems",
+  "position": "Staff AI & Backend Engineer",
+  "location": "Remote (Global)",
+  "sector": "Cloud Infrastructure & AI Platform",
+  "description": "We are seeking a Staff AI & Backend Engineer to build high-throughput APIs, manage PostgreSQL and SQLite distributed data pipelines, design containerized services with Docker and Kubernetes, and integrate LLM agents into our core workflows. Required skills: Node.js, TypeScript, Python, Docker, PostgreSQL, LLM Integration, System Design.",
+  "requiredSkills": [
+    "Node.js",
+    "TypeScript",
+    "Python",
+    "Docker",
+    "PostgreSQL",
+    "LLM Integration",
+    "System Design"
+  ],
+  "seniority": "Staff / Lead",
+  "salaryBenchmark": "$160,000 - $210,000 / Year + Equity"
+}

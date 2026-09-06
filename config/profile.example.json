@@ -1,0 +1,26 @@
+{
+  "name": "Alex Morgan",
+  "title": "Senior Software & AI Systems Engineer",
+  "phone": "+1 (555) 019-2834",
+  "email": "alex.morgan@example.com",
+  "portfolio": "https://example.com",
+  "linkedin": "https://linkedin.com/in/alexmorgan",
+  "location": "San Francisco, CA (Remote / Hybrid)",
+  "yearsOfExperience": 10,
+  "skills": [
+    "JavaScript",
+    "TypeScript",
+    "Node.js",
+    "React",
+    "Python",
+    "SQL",
+    "SQLite",
+    "PostgreSQL",
+    "Docker",
+    "Cloud Architecture (AWS/GCP)",
+    "LLM Integration & Prompt Engineering",
+    "CI/CD & DevOps",
+    "System Design & Microservices",
+    "Agile Leadership"
+  ]
+}

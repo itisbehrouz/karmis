@@ -1,0 +1,25 @@
+# Personal & Sensitive Data Protection
+cv.md
+cv_tr.md
+cv*.md
+cv*.pdf
+resume.md
+config/profile.json
+config.json
+.env
+*.env
+*.db
+*.sqlite
+karmis.db
+data/
+artifacts/
+logs/
+.system_generated/
+
+# Dependency directories
+node_modules/
+npm-debug.log*
+
+# OS Generated Files
+.DS_Store
+Thumbs.db

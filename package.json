@@ -1,0 +1,38 @@
+{
+  "name": "karmis",
+  "version": "2.0.0",
+  "description": "KARMİS — Open-Source AI Career Intelligence, Job Evaluation & ATS Gap Engine",
+  "main": "bin/karmis.js",
+  "bin": {
+    "karmis": "bin/karmis.js"
+  },
+  "scripts": {
+    "start": "node bin/karmis.js",
+    "init": "node bin/karmis.js init",
+    "dashboard": "node bin/karmis.js dashboard",
+    "test": "node test/evaluator.test.js"
+  },
+  "keywords": [
+    "karmis",
+    "career",
+    "job-evaluation",
+    "ats-scanner",
+    "resume-matcher",
+    "career-ops",
+    "ai-agent",
+    "open-source"
+  ],
+  "author": "KARMİS Contributors <https://github.com/itisbehrouz/karmis>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itisbehrouz/karmis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itisbehrouz/karmis/issues"
+  },
+  "homepage": "https://github.com/itisbehrouz/karmis#readme",
+  "dependencies": {
+    "better-sqlite3": "^9.4.3"
+  }
+}
