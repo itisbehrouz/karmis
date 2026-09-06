@@ -4,6 +4,16 @@ config.json
 .env
 *.env
 *.db
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+secrets/
+*profile*.json
+*cv*.pdf
+*cv*.json
+*resume*.pdf
+*resume*.md
 data/
 artifacts/
 logs/

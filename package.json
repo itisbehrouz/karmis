@@ -1,23 +1,30 @@
 {
   "name": "karmis",
-  "version": "1.0.0",
-  "description": "KARMİS - Yapay Zeka Destekli Üst Düzey Yönetici İlan İnceleme ve Kariyer Operasyon Motoru",
+  "version": "2.0.0",
+  "description": "KARMİS — Personal Career Decision Engine (Kariyer Mimarisi & Karar Motoru)",
   "main": "bin/karmis.js",
   "bin": {
     "karmis": "bin/karmis.js"
   },
   "scripts": {
     "start": "node bin/karmis.js",
-    "test": "node lib/evaluator.js"
+    "test": "node --test test/*.test.js"
   },
   "keywords": [
-    "karmis",
-    "career",
-    "job-evaluation",
-    "ai-agent",
-    "executive-search",
+    "career-decision-engine",
+    "career-development",
+    "career-strategy",
+    "job-search",
+    "job-evaluator",
+    "skill-gap-analysis",
+    "next-best-move",
+    "career-simulator",
+    "privacy-first",
+    "local-first",
+    "sqlite",
+    "ats-optimizer",
     "kariyer-mimarisi",
-    "career-ops"
+    "karmis"
   ],
   "author": "Behrouz Bagherzadeh <https://github.com/behrouzbagherzadeh>",
   "license": "MIT",

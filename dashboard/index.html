@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KARMİS — Executive Başvuru & Rapor Takip Paneli</title>
+  <title>KARMİS V2 — Personal Career Decision Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f172a;
+      --sidebar-bg: #1e293b;
       --card: #1e293b;
       --card-border: #334155;
       --text: #f8fafc;
@@ -27,6 +28,7 @@
 
     html.light {
       --bg: #f8fafc;
+      --sidebar-bg: #ffffff;
       --card: #ffffff;
       --card-border: #e2e8f0;
       --text: #0f172a;
@@ -38,666 +40,1435 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; transition: background 0.3s, color 0.3s; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 13.5px; line-height: 1.5; min-height: 100vh; display: flex; }
 
-    /* Glassmorphic Floating Header aligned with container width */
-    header {
-      max-width: 1400px;
-      width: calc(100% - 48px);
-      margin: 20px auto 0 auto;
-      border-radius: 14px;
-      padding: 14px 24px;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    /* Layout */
+    aside {
+      width: 260px;
+      min-width: 260px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
       position: sticky;
-      top: 16px;
-      z-index: 40;
+      top: 0;
+    }
+
+    .brand {
+      padding: 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+      letter-spacing: 0.5px;
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 12px 10px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 2px;
+      transition: all 0.15s;
+    }
+    .nav-item:hover {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--text);
+    }
+    .nav-item.active {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .main-wrap {
+      flex: 1;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 14px 28px;
+      border-bottom: 1px solid var(--card-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: all 0.3s;
+      background: var(--sidebar-bg);
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
-    html.light header {
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
-    }
-    .logo-group { display: flex; align-items: center; gap: 12px; }
-    .logo-badge { background: var(--accent); color: white; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 6px; letter-spacing: 1px; }
-    .logo-title { font-size: 17px; font-weight: 700; color: var(--text); }
-    .header-right { display: flex; align-items: center; gap: 12px; }
+    .page-title { font-size: 16px; font-weight: 700; color: var(--text); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
 
-    /* Icon-Only Status Dot & Theme Switcher */
-    .status-pill-icon {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-    .dot {
-      width: 9px;
-      height: 9px;
-      background: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #10b981;
-      animation: pulseDot 2s infinite;
-    }
-    @keyframes pulseDot {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
-
-    .theme-toggle {
-      background: var(--input-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text);
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      font-size: 16px;
+    .btn {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+
+    .content-area {
+      padding: 24px 28px;
+      flex: 1;
+    }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* Cards & Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* High-Leverage Move Hero Box */
+    .hero-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(30, 58, 138, 0.18) 100%);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+    }
+    .hero-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #60a5fa;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .hero-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      max-width: 900px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 20px;
+      font-size: 12px;
+      color: var(--text);
+      padding-top: 12px;
+      border-top: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    .meta-item strong { color: #93c5fd; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th {
+      background: var(--table-header-bg);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text);
+    }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-apply { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-pass { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-maybe { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    /* Inputs */
+    input, textarea, select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
       justify-content: center;
-      transition: all 0.2s;
     }
-    .theme-toggle:hover { border-color: var(--accent); transform: scale(1.06); }
-
-    /* Container matching header width */
-    .container { max-width: 1400px; width: 100%; margin: 0 auto; padding: 20px 24px 28px 24px; }
-
-    /* Controls Bar */
-    .controls-bar { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; transition: background 0.3s; }
-    .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-    .tab-btn { background: transparent; border: 1px solid var(--card-border); color: var(--text-muted); padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .tab-btn:hover { color: var(--text); border-color: var(--text-muted); }
-    .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-
-    /* Controls Right: Pagination + Search */
-    .controls-right { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-    .pagination-group { display: flex; align-items: center; gap: 8px; }
-    .page-indicator { font-size: 12px; font-weight: 600; color: var(--text-muted); padding: 0 4px; }
-
-    .search-box { display: flex; align-items: center; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 6px 12px; width: 260px; }
-    .search-box input { background: transparent; border: none; color: var(--text); outline: none; font-size: 13px; width: 100%; margin-left: 8px; }
-
-    /* Table Container */
-    .table-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; transition: background 0.3s; }
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
-    th { background: var(--table-header-bg); color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; padding: 14px 16px; border-bottom: 1px solid var(--card-border); user-select: none; }
-    td { padding: 14px 16px; border-bottom: 1px solid var(--card-border); color: var(--text); vertical-align: middle; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(37, 99, 235, 0.04); }
-
-    /* Sortable Header Interactive Style */
-    .sortable-th { cursor: pointer; transition: color 0.2s; }
-    .sortable-th:hover { color: var(--accent); }
-    .th-content { display: flex; align-items: center; gap: 6px; }
-    .sort-icon { transition: transform 0.2s, color 0.2s; color: var(--text-muted); }
-    .sortable-th:hover .sort-icon { color: var(--accent); }
-    .sortable-th.active-sort { color: var(--accent); }
-    .sortable-th.active-sort .sort-icon { color: var(--accent); }
-
-    /* Flowbite SVG Action Icons */
-    .btn-icon { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-muted); width: 36px; height: 36px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; text-decoration: none; }
-    .btn-icon:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: rgba(37, 99, 235, 0.1); transform: scale(1.05); }
-    .btn-icon:disabled { opacity: 0.35; cursor: not-allowed; }
-
-    /* Subtle Status Select Colors */
-    .status-select { font-size: 12px; font-weight: 600; border-radius: 8px; padding: 6px 12px; outline: none; cursor: pointer; transition: all 0.2s; }
-    .status-select.status-applied { background: rgba(37, 99, 235, 0.12); color: #3b82f6; border: 1px solid rgba(37, 99, 235, 0.35); }
-    .status-select.status-responded { background: rgba(139, 92, 246, 0.12); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.35); }
-    .status-select.status-interviewing { background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35); }
-    .status-select.status-rejected { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
-
-    .status-select option { background: var(--card); color: var(--text); padding: 8px; }
-    .status-select option[value="Applied"] { color: #3b82f6; }
-    .status-select option[value="Responded"] { color: #a78bfa; }
-    .status-select option[value="Interviewing"] { color: #10b981; }
-    .status-select option[value="Rejected"] { color: #f87171; }
-
-    .score-badge { background: var(--badge-bg); color: var(--badge-text); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 6px; display: inline-block; }
-    .followup-badge { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #f59e0b; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; }
-
-    /* Modal Drawers */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 50; display: none; justify-content: flex-end; }
-    .modal-overlay.active { display: flex; }
-    .modal-content { background: var(--bg); width: 100%; max-width: 850px; height: 100vh; overflow-y: auto; border-left: 1px solid var(--card-border); padding: 32px; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3); }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; margin-bottom: 24px; }
-    .modal-title { font-size: 20px; font-weight: 700; color: var(--text); }
-    .close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; }
-    .close-btn:hover { color: var(--text); }
-
-    /* Copy Actions */
-    .action-bar { display: flex; gap: 10px; margin-bottom: 24px; }
-    .btn-action { background: var(--card); border: 1px solid var(--card-border); color: var(--text); padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
-    .btn-action:hover { background: var(--card-border); color: var(--accent); }
-
-    /* Notes Modal Components */
-    .note-textarea { width: 100%; height: 180px; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 14px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; outline: none; margin-bottom: 16px; resize: vertical; }
-    .note-textarea:focus { border-color: var(--accent); }
-    .quick-stamp-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-    .stamp-btn { background: var(--card); border: 1px solid var(--card-border); color: var(--text-muted); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .stamp-btn:hover { color: var(--text); border-color: var(--accent); background: rgba(37, 99, 235, 0.08); }
-    .btn-save-note { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.2s; }
-    .btn-save-note:hover { background: var(--accent-hover); }
-
-    /* Report Markdown Body */
-    .report-body { font-size: 13px; line-height: 1.7; color: var(--text); }
-    .report-body h1 { font-size: 20px; color: var(--text); margin-bottom: 16px; border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
-    .report-body h3 { font-size: 15px; color: var(--accent); margin-top: 24px; margin-bottom: 12px; }
-    .report-body table { width: 100%; border-collapse: collapse; margin: 16px 0; border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden; }
-    .report-body th, .report-body td { border: 1px solid var(--card-border); padding: 10px 14px; text-align: left; vertical-align: top; }
-    .report-body th { background: var(--table-header-bg); color: var(--text); font-weight: 600; }
-    .report-body pre { background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 14px; white-space: pre-wrap; word-break: break-word; font-family: monospace; font-size: 12px; margin: 16px 0; color: var(--text); }
-    .report-body svg { max-width: 100%; height: auto; margin: 16px 0; border: 1px solid var(--card-border); border-radius: 8px; padding: 12px; background: #ffffff; }
-
-    /* Clean Print Stylesheet for Full Report Printing */
-    @media print {
-      body > *:not(#reportModal) { display: none !important; }
-      .modal-header, .action-bar, .close-btn { display: none !important; }
-      .modal-overlay { position: static !important; inset: auto !important; background: transparent !important; backdrop-filter: none !important; display: block !important; }
-      .modal-content { position: static !important; width: 100% !important; max-width: 100% !important; height: auto !important; max-height: none !important; overflow: visible !important; box-shadow: none !important; border: none !important; padding: 0 !important; background: #ffffff !important; color: #000000 !important; }
-      .report-body h1, .report-body h2, .report-body h3 { color: #000000 !important; page-break-after: avoid; }
-      .report-body table, .report-body pre, .report-body svg { page-break-inside: avoid; border-color: #d1d5db !important; }
-      .report-body th, .report-body td { border-color: #d1d5db !important; color: #000000 !important; background: #ffffff !important; }
-      .report-body pre { border-color: #d1d5db !important; background: #f9fafb !important; color: #000000 !important; }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      max-width: 750px;
+      width: calc(100% - 40px);
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
     }
-    .report-body td { border: 1px solid var(--card-border); padding: 8px 12px; }
-    .report-body pre { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: 14px; color: var(--text); font-family: monospace; white-space: pre-wrap; margin: 12px 0; }
-    .report-body svg { display: block; margin: 20px auto; max-width: 100%; height: auto; }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    /* Responsive Breakpoints */
+    @media (max-width: 1200px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 860px) {
+      body { flex-direction: column; height: auto; overflow-y: auto; }
+      aside { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--card-border); }
+      .nav-list { display: flex; flex-wrap: wrap; gap: 4px; overflow-x: auto; max-height: 180px; }
+      .main-wrap { height: auto; overflow: visible; }
+      .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .content-area { padding: 16px; }
+      header { padding: 12px 16px; }
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo-group">
-      <span class="logo-badge">KARMİS v1.8</span>
-      <span class="logo-title">Executive Başvuru & Rapor Takip Paneli</span>
+  <!-- Sidebar -->
+  <aside>
+    <div class="brand">
+      <span class="brand-badge">V2.0</span>
+      <span class="brand-title">KARMİS Engine</span>
     </div>
-    <div class="header-right">
-      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Tema Değiştir (Açık / Koyu)" aria-label="Tema Değiştir">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-      </button>
-      <div class="status-pill-icon" title="Canlı Senkronizasyon Aktif" aria-label="Canlı Senkronizasyon">
-        <span class="dot"></span>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="switchTab('dashboard', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/></svg>
+        Dashboard
+      </li>
+      <li class="nav-item" onclick="switchTab('dna', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+        Career DNA
+      </li>
+      <li class="nav-item" onclick="switchTab('target', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/></svg>
+        Career Target
+      </li>
+      <li class="nav-item" onclick="switchTab('gaps', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+        Skill Gaps
+      </li>
+      <li class="nav-item" onclick="switchTab('jobs', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1m-8 0h8m-8 0H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/></svg>
+        Jobs
+      </li>
+      <li class="nav-item" onclick="switchTab('evidence', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 13 4 4L19 7"/></svg>
+        Evidence
+      </li>
+      <li class="nav-item" onclick="switchTab('next', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17h6m-3-14a6 6 0 0 0-6 6c0 2.22 1.2 4.16 3 5.2V16a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1.8c1.8-1.04 3-2.98 3-5.2a6 6 0 0 0-6-6Z"/></svg>
+        Next Best Move
+      </li>
+      <li class="nav-item" onclick="switchTab('simulator', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M7 16l4-4 4 4 5-6"/></svg>
+        Career Simulator
+      </li>
+      <li class="nav-item" onclick="switchTab('applications', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2m14 0V9a2 2 0 0 0-2-2M5 11V9a2 2 0 0 1 2-2m0 0V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 7h10"/></svg>
+        Applications
+      </li>
+      <li class="nav-item" onclick="switchTab('analytics', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6.025A7.5 7.5 0 1 0 17.975 14H10V6.025ZM13.5 3.1A7.5 7.5 0 0 1 20.9 10.5H13.5V3.1Z"/></svg>
+        Analytics
+      </li>
+      <li class="nav-item" onclick="switchTab('settings', this)">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+        Settings
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Wrap -->
+  <div class="main-wrap">
+    <header>
+      <div class="page-title" id="topHeaderTitle">KARMİS Executive Dashboard</div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="syncGoogleDriveCsv()" title="CSV Dosyası Senkronize Et (ABSG)">
+          <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/></svg>
+          ABSG Senkronize Et
+        </button>
+        <button class="btn btn-secondary" onclick="toggleTheme()" title="Tema Değiştir">
+          <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <div class="container">
+    <div class="content-area">
 
-    <!-- Controls Bar -->
-    <div class="controls-bar">
-      <div class="filter-tabs">
-        <button class="tab-btn active" onclick="setFilter('all', this)">Tümü</button>
-        <button class="tab-btn" onclick="setFilter('Applied', this)">Devam Ediyor</button>
-        <button class="tab-btn" onclick="setFilter('Interviewing', this)">Mülakat</button>
-        <button class="tab-btn" onclick="setFilter('Responded', this)">Yanıt Alındı</button>
-        <button class="tab-btn" onclick="setFilter('Rejected', this)">İptal Edildi</button>
-      </div>
+      <!-- 1. DASHBOARD VIEW -->
+      <section id="view-dashboard" class="view-section active">
 
-      <div class="controls-right">
-        <!-- Pagination Controls Right Next to Search -->
-        <div class="pagination-group">
-          <button id="prevBtn" class="btn-icon" onclick="changePage(-1)" title="Önceki 10 İlan" aria-label="Önceki Sayfa">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-          </button>
-          <span id="pageIndicator" class="page-indicator">1 / 1</span>
-          <button id="nextBtn" class="btn-icon" onclick="changePage(1)" title="Sonraki 10 İlan" aria-label="Sonraki Sayfa">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </button>
+        <!-- Section 24: The 4 Core Questions -->
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <!-- 1. WHERE AM I? -->
+          <div class="card" style="margin-bottom: 0; border-top: 3px solid #2563eb;">
+            <div class="card-title" style="display: flex; align-items: center; gap: 6px; color: #60a5fa;">
+              <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              WHERE AM I?
+            </div>
+            <div style="margin-top: 6px;">
+              <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Mevcut Seviye &amp; Rol</div>
+              <div style="font-size: 15px; font-weight: 700; color: var(--text);" id="qWhereRole">-</div>
+              <div style="font-size: 12px; color: #60a5fa; font-weight: 600; margin-top: 2px;" id="qWhereLevel">-</div>
+            </div>
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--card-border); font-size: 11.5px;">
+              <div style="color: var(--text-muted);">Pazar Konumu: <strong style="color: var(--text);" id="qWhereMarket">-</strong></div>
+              <div style="color: var(--text-muted); margin-top: 2px;">Deneyim: <strong style="color: var(--text);" id="qWhereExp">-</strong></div>
+            </div>
+          </div>
+
+          <!-- 2. WHERE AM I GOING? -->
+          <div class="card" style="margin-bottom: 0; border-top: 3px solid #10b981;">
+            <div class="card-title" style="display: flex; align-items: center; gap: 6px; color: #34d399;">
+              <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+              WHERE AM I GOING?
+            </div>
+            <div style="margin-top: 6px;">
+              <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Hedef Rol &amp; Seviye</div>
+              <div style="font-size: 15px; font-weight: 700; color: var(--text);" id="qGoingRole">-</div>
+              <div style="font-size: 12px; color: #10b981; font-weight: 600; margin-top: 2px;" id="qGoingLevel">-</div>
+            </div>
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--card-border); font-size: 11.5px;">
+              <div style="color: var(--text-muted);">Hedef Maaş: <strong style="color: #34d399;" id="qGoingSalary">-</strong></div>
+              <div style="color: var(--text-muted); margin-top: 2px;">Zaman Çizelgesi: <strong style="color: var(--text);" id="qGoingTimeline">-</strong></div>
+            </div>
+          </div>
+
+          <!-- 3. WHAT IS BLOCKING ME? -->
+          <div class="card" style="margin-bottom: 0; border-top: 3px solid #f59e0b;">
+            <div class="card-title" style="display: flex; align-items: center; gap: 6px; color: #fbbf24;">
+              <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              WHAT IS BLOCKING ME?
+            </div>
+            <div style="margin-top: 6px;">
+              <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Temel Yetkinlik Açıkları</div>
+              <div style="font-size: 13px; font-weight: 600; color: var(--text); min-height: 38px;" id="qBlockingGaps">-</div>
+            </div>
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--card-border); font-size: 11.5px;">
+              <div style="color: var(--text-muted);">Kanıt Darboğazı: <strong style="color: #f59e0b;" id="qBlockingBottleneck">-</strong></div>
+            </div>
+          </div>
+
+          <!-- 4. WHAT SHOULD I DO NEXT? -->
+          <div class="card" style="margin-bottom: 0; border-top: 3px solid #8b5cf6;">
+            <div class="card-title" style="display: flex; align-items: center; gap: 6px; color: #c084fc;">
+              <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              WHAT SHOULD I DO NEXT?
+            </div>
+            <div style="margin-top: 6px;">
+              <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">En Yüksek Kaldıraçlı Eylem</div>
+              <div style="font-size: 13px; font-weight: 700; color: #60a5fa;" id="qNextAction">-</div>
+            </div>
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--card-border); font-size: 11.5px;">
+              <div style="color: var(--text-muted); font-size: 11px; line-height: 1.4;" id="qNextWhy">-</div>
+              <div style="margin-top: 6px; display: flex; gap: 8px;">
+                <span class="badge badge-apply" id="qNextImpact">-</span>
+                <span style="color: var(--text-muted); font-size: 11px;" id="qNextTime">-</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="search-box">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-muted"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input type="text" id="searchInput" placeholder="Şirket veya pozisyon ara..." onkeyup="onSearchInput()">
+        <!-- Section 25: CAREER HEALTH Summary Block -->
+        <div class="card" id="careerHealthCard" style="border: 1px solid rgba(37, 99, 235, 0.4); background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg class="w-5 h-5" style="color: #60a5fa;" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+              <h2 style="font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: 0.5px;">CAREER HEALTH</h2>
+            </div>
+            <span class="badge" style="background: rgba(37, 99, 235, 0.15); color: #93c5fd; border: 1px solid rgba(37, 99, 235, 0.3);">V2 Executive Summary</span>
+          </div>
+
+          <!-- Top Metrics Grid -->
+          <div class="grid-4" style="margin-bottom: 16px;">
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Current Level</div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-top: 4px;" id="chCurrentLevel">-</div>
+            </div>
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Current Market Position</div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #60a5fa; margin-top: 4px;" id="chMarketPosition">-</div>
+            </div>
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Target Role</div>
+              <div style="font-size: 15px; font-weight: 700; color: var(--text); margin-top: 4px;" id="chTargetRole">-</div>
+            </div>
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Target Salary</div>
+              <div style="font-size: 15px; font-weight: 700; color: #10b981; margin-top: 4px;" id="chTargetSalary">-</div>
+            </div>
+          </div>
+
+          <!-- Middle Metrics Grid -->
+          <div class="grid-3" style="margin-bottom: 18px;">
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Top Skill Gaps</div>
+              <div style="font-size: 12.5px; font-weight: 600; color: #f59e0b; margin-top: 4px;" id="chTopSkillGaps">-</div>
+            </div>
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Current Opportunities</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-top: 4px;" id="chCurrentOpportunities">-</div>
+            </div>
+            <div style="background: var(--input-bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--card-border);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Application Pipeline</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-top: 4px;" id="chApplicationPipeline">-</div>
+            </div>
+          </div>
+
+          <!-- Section 25: NEXT BEST MOVE Block -->
+          <div style="background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.3); border-radius: 8px; padding: 16px 18px;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;">
+              NEXT BEST MOVE
+            </div>
+            <div style="height: 1px; background: rgba(37, 99, 235, 0.3); margin: 6px 0 12px 0;"></div>
+            <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;" id="chNextAction">-</div>
+            <div style="margin-bottom: 10px;">
+              <span style="font-size: 11px; font-weight: 700; color: #93c5fd; text-transform: uppercase;">WHY:</span>
+              <span style="font-size: 12.5px; color: var(--text-muted); margin-left: 6px;" id="chNextWhy">-</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 12px; padding-top: 10px; border-top: 1px solid rgba(37, 99, 235, 0.15);">
+              <div>
+                <span style="font-size: 11px; font-weight: 700; color: #93c5fd; text-transform: uppercase;">EXPECTED IMPACT:</span>
+                <strong style="color: #34d399; margin-left: 6px;" id="chNextImpact">-</strong>
+              </div>
+              <div>
+                <span style="font-size: 11px; font-weight: 700; color: #93c5fd; text-transform: uppercase;">TIME:</span>
+                <strong style="color: var(--text); margin-left: 6px;" id="chNextTime">-</strong>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Table Card -->
-    <div class="table-card">
-      <table>
-        <thead>
-          <tr>
-            <th onclick="sortTable('date')" class="sortable-th" id="th-date" title="Tarihe Göre Sırala (A-Z / Z-A)">
-              <div class="th-content">
-                <span>Başvuru Tarihi</span>
-                <svg class="sort-icon" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
-                </svg>
-              </div>
-            </th>
-            <th onclick="sortTable('company')" class="sortable-th" id="th-company" title="Şirket Adına Göre Sırala (A-Z)">
-              <div class="th-content">
-                <span>Şirket Adı</span>
-                <svg class="sort-icon" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
-                </svg>
-              </div>
-            </th>
-            <th onclick="sortTable('position')" class="sortable-th" id="th-position" title="Pozisyona Göre Sırala (A-Z)">
-              <div class="th-content">
-                <span>Pozisyon</span>
-                <svg class="sort-icon" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
-                </svg>
-              </div>
-            </th>
-            <th onclick="sortTable('score')" class="sortable-th" id="th-score" title="Uyum Oranına Göre Sırala (% Yüksek -> Düşük)">
-              <div class="th-content">
-                <span>Uyum Oranı</span>
-                <svg class="sort-icon" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
-                </svg>
-              </div>
-            </th>
-            <th>Kanal / Kaynak</th>
-            <th>Başvuru Durumu</th>
-            <th>Görüşülen İK</th>
-            <th style="text-align: center;">İlan Linki</th>
-            <th style="text-align: center;">Rapor</th>
-            <th style="text-align: center;">Notlar</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <!-- Rows will be injected here -->
-        </tbody>
-      </table>
-    </div>
+        <!-- 30-Day Snapshot -->
+        <div class="card">
+          <div class="card-title">30-Günlük Temel Eylem Planı</div>
+          <div id="dashThirtyPlanDesc" style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">-</div>
+          <ul id="dashThirtyPlanActions" style="list-style: disc; margin-left: 20px; color: var(--text-muted); font-size: 13px;"></ul>
+        </div>
+      </section>
 
+      <!-- 2. CAREER DNA VIEW -->
+      <section id="view-dna" class="view-section">
+        <div class="card">
+          <div class="card-title">Kariyer DNA'sı & Kimlik Bilgileri</div>
+          <div class="grid-2">
+            <div>
+              <label>Ad Soyad</label>
+              <input type="text" id="dnaName">
+            </div>
+            <div>
+              <label>Mevcut Unvan</label>
+              <input type="text" id="dnaTitle">
+            </div>
+            <div>
+              <label>Kıdem Seviyesi</label>
+              <select id="dnaLevel">
+                <option value="STUDENT">Student</option>
+                <option value="INTERN">Intern</option>
+                <option value="ENTRY_LEVEL">Entry Level</option>
+                <option value="JUNIOR">Junior</option>
+                <option value="MID">Mid-Level</option>
+                <option value="SENIOR">Senior</option>
+                <option value="LEAD">Lead / Principal</option>
+                <option value="MANAGER">Manager</option>
+                <option value="DIRECTOR">Director</option>
+                <option value="VP">Vice President</option>
+                <option value="C_LEVEL">C-Level Executive</option>
+                <option value="FOUNDER">Founder</option>
+                <option value="FREELANCER">Freelancer</option>
+                <option value="CAREER_CHANGER">Career Changer</option>
+              </select>
+            </div>
+            <div>
+              <label>Toplam Tecrübe (Yıl)</label>
+              <input type="number" id="dnaYears">
+            </div>
+            <div>
+              <label>E-posta</label>
+              <input type="email" id="dnaEmail">
+            </div>
+            <div>
+              <label>Telefon</label>
+              <input type="text" id="dnaPhone">
+            </div>
+            <div>
+              <label>Lokasyon</label>
+              <input type="text" id="dnaLocation">
+            </div>
+            <div>
+              <label>Portföy URL</label>
+              <input type="text" id="dnaPortfolio">
+            </div>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="btn" onclick="saveDnaForm()">Kariyer DNA'sını Kaydet</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. CAREER TARGET VIEW -->
+      <section id="view-target" class="view-section">
+        <div class="card">
+          <div class="card-title">Hedef Kariyer Durumu (Target State)</div>
+          <div class="grid-2">
+            <div>
+              <label>Hedef Rol</label>
+              <input type="text" id="tgtRole">
+            </div>
+            <div>
+              <label>Hedef Seviye</label>
+              <select id="tgtLevel">
+                <option value="SENIOR">Senior</option>
+                <option value="LEAD">Lead / Principal</option>
+                <option value="MANAGER">Manager</option>
+                <option value="DIRECTOR">Director</option>
+                <option value="VP">Vice President</option>
+                <option value="C_LEVEL">C-Level Executive</option>
+                <option value="FOUNDER">Founder</option>
+              </select>
+            </div>
+            <div>
+              <label>Hedef Sektör</label>
+              <input type="text" id="tgtIndustry">
+            </div>
+            <div>
+              <label>Hedef Coğrafya</label>
+              <input type="text" id="tgtGeography">
+            </div>
+            <div>
+              <label>Hedef Maaş (Aylık Net)</label>
+              <input type="number" id="tgtSalary">
+            </div>
+            <div>
+              <label>Hedef Zaman Çizelgesi (Ay)</label>
+              <input type="number" id="tgtTimeline">
+            </div>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="btn" onclick="saveTargetForm()">Hedef State'i Kaydet</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SKILL GAPS VIEW -->
+      <section id="view-gaps" class="view-section">
+        <div class="card">
+          <div class="card-title">Yetkinlik Açığı Analiz Tablosu (Skill Gap Engine)</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Yetkinlik</th>
+                <th>Önem</th>
+                <th>Mevcut</th>
+                <th>Hedef</th>
+                <th>Fark</th>
+                <th>Değerlendirme</th>
+                <th>Önerilen Eylem & Kanıt</th>
+              </tr>
+            </thead>
+            <tbody id="gapsTableBody">
+              <tr><td colspan="7">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. JOB EVALUATOR VIEW -->
+      <section id="view-jobs" class="view-section">
+        <div class="card">
+          <div class="card-title">11 Boyutlu İlan Değerlendirme Motoru</div>
+          <div class="grid-2">
+            <div>
+              <label>Şirket Adı</label>
+              <input type="text" id="evalCompany" placeholder="Örn: The Coca-Cola Company, Ticimax">
+            </div>
+            <div>
+              <label>Pozisyon Unvanı</label>
+              <input type="text" id="evalPosition" placeholder="Örn: Senior Director / Digital Transformation">
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <label>İlan Açıklama Metni veya Şartlar</label>
+            <textarea id="evalDescription" rows="4" placeholder="İlan metnini buraya yapıştırın..."></textarea>
+          </div>
+          <div style="margin-top: 12px;">
+            <button class="btn" onclick="runJobEvaluation()">İlanı Değerlendir (11 Boyutlu)</button>
+          </div>
+        </div>
+
+        <div id="evalResultContainer" style="display: none;">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <div>
+                <h3 id="evalCompanyDisplay" style="font-size: 17px; font-weight: 700;"></h3>
+                <div id="evalRoleDisplay" style="color: var(--text-muted); font-size: 13px;"></div>
+              </div>
+              <div id="evalDecisionBadge"></div>
+            </div>
+
+            <div id="evalDimensionsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 16px;"></div>
+
+            <div class="grid-2">
+              <div style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 14px;">
+                <div style="font-weight: 700; color: #10b981; margin-bottom: 6px;">Pozitif Faktörler</div>
+                <ul id="evalPositiveReasons" style="list-style: disc; margin-left: 18px; font-size: 12.5px;"></ul>
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 8px; padding: 14px;">
+                <div style="font-weight: 700; color: #ef4444; margin-bottom: 6px;">Riskler & Çelişkiler</div>
+                <ul id="evalNegativeReasons" style="list-style: disc; margin-left: 18px; font-size: 12.5px;"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. EVIDENCE WALLET VIEW -->
+      <section id="view-evidence" class="view-section">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <div class="card-title" style="margin-bottom: 0;">Kanıt Cüzdanı (Evidence Wallet)</div>
+            <button class="btn" onclick="openAddEvidenceModal()">+ Yeni Kanıt Ekle</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Kanıt / Case Study</th>
+                <th>Ölçülebilir Metrik / Sonuç</th>
+                <th>Yetkinlik Etiketleri</th>
+                <th>Tarih</th>
+                <th>Güç Derecesi</th>
+              </tr>
+            </thead>
+            <tbody id="evidenceTableBody">
+              <tr><td colspan="5">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 7. NEXT BEST MOVE VIEW -->
+      <section id="view-next" class="view-section">
+        <div class="hero-card" id="nextMoveMainHero">
+          <div class="hero-label">Stratejik Öncelik</div>
+          <div class="hero-title" id="nextMoveActionTitle">-</div>
+          <div class="hero-desc" id="nextMoveWhyDesc">-</div>
+          <div class="hero-meta">
+            <div class="meta-item">Kök Neden / Darboğaz: <strong id="nextMoveBottleneckDesc">-</strong></div>
+            <div class="meta-item">Tahmini Süre: <strong id="nextMoveTimeDesc">-</strong></div>
+            <div class="meta-item">Başarı Kriteri: <strong id="nextMoveSuccessMetric">-</strong></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">30 / 60 / 90 Günlük Uygulama Planı</div>
+          <div class="grid-3" id="planPhasesGrid"></div>
+        </div>
+      </section>
+
+      <!-- 8. CAREER SIMULATOR VIEW -->
+      <section id="view-simulator" class="view-section">
+        <div class="card">
+          <div class="card-title">8 Kariyer Senaryosu Karşılaştırma Matrisi (3 Yıllık Projeksiyon)</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Senaryo Yolu</th>
+                <th>3 Yıllık Tahmini Gelir Aralığı</th>
+                <th>Risk Seviyesi</th>
+                <th>Başarı Olasılığı</th>
+                <th>Yetkinlik Gelişimi</th>
+                <th>Kariyer Opsiyonelliği</th>
+              </tr>
+            </thead>
+            <tbody id="simulatorTableBody">
+              <tr><td colspan="6">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 9. APPLICATIONS VIEW (Preserved & Enhanced) -->
+      <section id="view-applications" class="view-section">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <div class="card-title" style="margin-bottom: 0;">Aktif Başvuru Takip Tablosu</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Sıralama: Yeniden Eskiye (Newest First)</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Şirket Adı</th>
+                <th>Pozisyon</th>
+                <th>Uyum</th>
+                <th>Tarih</th>
+                <th>Kanal</th>
+                <th>Durum</th>
+                <th>Son Temas</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="appsTableBody">
+              <tr><td colspan="8">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 10. ANALYTICS VIEW -->
+      <section id="view-analytics" class="view-section">
+        <div class="grid-4">
+          <div class="card">
+            <div class="card-title">Toplam Başvuru</div>
+            <div class="card-val" id="anTotalApps">0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Mülakat Oranı</div>
+            <div class="card-val" id="anInterviewRate">%0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Teklif Oranı</div>
+            <div class="card-val" id="anOfferRate">%0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Ortalama Uyum Puanı</div>
+            <div class="card-val" id="anAvgScore">%0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Öğrenme Döngüsü &amp; Sonuç Kalibrasyonu</div>
+          <div id="anCalibrationInsight" style="font-size: 14px; color: var(--text);">Yükleniyor...</div>
+        </div>
+      </section>
+
+      <!-- 11. SETTINGS VIEW -->
+      <section id="view-settings" class="view-section">
+        <div class="card">
+          <div class="card-title" style="display: flex; align-items: center; gap: 8px;">
+            <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+            Sistem Ayarları &amp; Yerel Tercihler (Settings)
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+            KARMİS yerel öncelikli (local-first) bir karar motorudur. Verileriniz yalnızca kendi makinenizdeki SQLite veritabanında saklanır.
+          </p>
+
+          <div class="grid-2">
+            <div>
+              <label for="settingAiProvider">Yapay Zeka (AI) Sağlayıcı Katmanı</label>
+              <select id="settingAiProvider">
+                <option value="local">local (Yerel Çevrimdışı Deterministik Motor — Varsayılan)</option>
+                <option value="openai">openai (OpenAI GPT Modelleri)</option>
+                <option value="anthropic">anthropic (Anthropic Claude Modelleri)</option>
+              </select>
+              <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 5px;">
+                Deterministik hesaplama ve puanlama her zaman yerel çalışır. Harici sağlayıcılar yalnızca metin üretimi için kullanılır.
+              </div>
+            </div>
+
+            <div>
+              <label for="settingPrivacyStatus">Gizlilik &amp; Telemetri Durumu</label>
+              <div id="settingPrivacyStatus" style="padding: 10px 12px; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 6px; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                <svg class="w-4 h-4" style="color: #10b981;" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <strong style="color: #10b981;">%100 Yerel / Sıfır Dış Telemetri</strong>
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 5px;">
+                Hiçbir analitik, izleme veya profil verisi harici sunuculara aktarılmaz.
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <label for="settingDbPath">SQLite Veritabanı Dosya Yolu</label>
+            <input type="text" id="settingDbPath" readonly style="color: var(--text-muted); cursor: not-allowed;">
+          </div>
+
+          <div style="margin-top: 16px;">
+            <label for="settingCsvPath">Google Drive / Yerel CSV Takip Dosyası Konumu</label>
+            <input type="text" id="settingCsvPath">
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 5px;">
+              ABSG / ABDG komutuyla senkronize edilen ana takip tablosu yolu.
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; display: flex; align-items: center; gap: 12px;">
+            <button class="btn" onclick="saveSettingsForm()">
+              <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Ayarları Kaydet
+            </button>
+            <span id="settingsSaveStatus" style="font-size: 12px; color: #10b981; display: none;">Ayarlar başarıyla kaydedildi.</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="display: flex; align-items: center; gap: 8px;">
+            <svg class="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+            Ortam Değişkenleri &amp; Bulut API Durumu
+          </div>
+          <div class="grid-2" style="margin-bottom: 0;">
+            <div style="font-size: 12.5px;">
+              <span style="color: var(--text-muted);">OPENAI_API_KEY:</span>
+              <span id="settingOpenAiStatus" style="margin-left: 6px;">-</span>
+            </div>
+            <div style="font-size: 12.5px;">
+              <span style="color: var(--text-muted);">ANTHROPIC_API_KEY:</span>
+              <span id="settingAnthropicStatus" style="margin-left: 6px;">-</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
   </div>
 
-  <!-- Report Modal Drawer -->
-  <div class="modal-overlay" id="reportModal">
-    <div class="modal-content">
+  <!-- Add Evidence Modal -->
+  <div class="modal-overlay" id="addEvidenceModal">
+    <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title" id="modalTitle">Değerlendirme Raporu</div>
-        <button class="close-btn" onclick="closeModal('reportModal')">&times;</button>
-      </div>
-
-      <div class="action-bar">
-        <button class="btn-action" onclick="copyCoverLetter()">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+        <h3 style="font-size: 15px; font-weight: 700;">Yeni Kanıt / Vaka Çalışması Ekle</h3>
+        <button class="btn btn-secondary" style="padding: 6px;" onclick="closeModal('addEvidenceModal')" aria-label="Kapat">
+          <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
           </svg>
-          Kapak Mektubunu Kopyala
-        </button>
-        <button class="btn-action" onclick="copyLinkedinNote()">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-          </svg>
-          LinkedIn Mesajını Kopyala
-        </button>
-        <button class="btn-action" onclick="window.print()">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-          </svg>
-          Yazdır / PDF
         </button>
       </div>
-
-      <div class="report-body" id="modalReportContent">
-        <!-- Report Markdown rendered HTML -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Call Log & Notes Modal Drawer -->
-  <div class="modal-overlay" id="notesModal">
-    <div class="modal-content" style="max-width: 650px;">
-      <div class="modal-header">
-        <div>
-          <div class="modal-title" id="noteModalTitle">Görüşme & Telefon Notu Ekle</div>
-          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;" id="noteModalSub">Arama veya mülakat detaylarını kaydedin</div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px;">
+          <label>Proje / Başarı Başlığı</label>
+          <input type="text" id="newEviTitle" placeholder="Örn: Executive Power BI Suite">
         </div>
-        <button class="close-btn" onclick="closeModal('notesModal')">&times;</button>
+        <div style="margin-bottom: 12px;">
+          <label>Ölçülebilir Başarı Metriği</label>
+          <input type="text" id="newEviMetric" placeholder="Örn: Manuel raporlama yükünü %80 azalttı">
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label>Detaylı Açıklama</label>
+          <textarea id="newEviDesc" rows="3" placeholder="Uygulanan yöntem ve iş etkisi..."></textarea>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label>Yetkinlikler (Virgülle ayırın)</label>
+            <input type="text" id="newEviSkills" placeholder="Power BI, Data Architecture">
+          </div>
+          <div>
+            <label>Kanıt Gücü</label>
+            <select id="newEviStrength">
+              <option value="STRONG">Güçlü (Verified Metric / Link)</option>
+              <option value="MODERATE">Orta (Documented)</option>
+              <option value="WEAK">Zayıf (Anecdotal)</option>
+            </select>
+          </div>
+        </div>
       </div>
-
-      <div style="margin-bottom: 12px; font-weight: 600; font-size: 12px; color: var(--text-muted);">
-        HIZLI EKLENTİ BUTONLARI (ŞABLON ETİKETİ):
-      </div>
-
-      <div class="quick-stamp-group">
-        <button class="stamp-btn" onclick="appendStamp('☎️ [Telefon Mülakatı Yapıldı] ')">+ Telefon Mülakatı</button>
-        <button class="stamp-btn" onclick="appendStamp('📅 [Mülakat Daveti Alındı] ')">+ Mülakat Daveti</button>
-        <button class="stamp-btn" onclick="appendStamp('💼 [Maaş Beklentisi İletildi] ')">+ Maaş İletildi</button>
-        <button class="stamp-btn" onclick="appendStamp('📩 [Takip Mesajı Gönderildi] ')">+ Takip Mesajı</button>
-      </div>
-
-      <textarea id="noteInputText" class="note-textarea" placeholder="Örn: 13.08.2026 İK yetkilisi aradı. 1. Aşama teknik mülakat daveti iletildi..."></textarea>
-
-      <div style="display: flex; justify-content: flex-end; gap: 12px;">
-        <button class="btn-action" onclick="closeModal('notesModal')">Vazgeç</button>
-        <button class="btn-save-note" onclick="saveNote()">💾 Notu Kaydet & Senkronize Et</button>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addEvidenceModal')">İptal</button>
+        <button class="btn" onclick="submitNewEvidence()">Kanıtı Kaydet</button>
       </div>
     </div>
   </div>
 
   <script>
-    let rawApplications = [];
-    let currentFilter = 'all';
-    let currentReportObj = null;
-
-    let currentPage = 1;
-    const itemsPerPage = 10;
-
-    let sortColumn = 'date';
-    let sortDirection = 'desc';
-
-    let activeNoteApp = null;
-
-    // Theme Switcher
-    function initTheme() {
-      const savedTheme = localStorage.getItem('karmis-theme') || 'dark';
-      applyTheme(savedTheme);
-    }
+    let currentDna = null;
 
     function toggleTheme() {
-      const current = document.documentElement.classList.contains('light') ? 'dark' : 'light';
-      localStorage.setItem('karmis-theme', current);
-      applyTheme(current);
+      const html = document.getElementById('htmlTag');
+      html.classList.toggle('light');
+      html.classList.toggle('dark');
     }
 
-    function applyTheme(theme) {
-      const btn = document.getElementById('themeToggleBtn');
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
-        if (btn) {
-          btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>`;
-        }
-      } else {
-        document.documentElement.classList.remove('light');
-        document.documentElement.classList.add('dark');
-        if (btn) {
-          btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`;
-        }
-      }
-      localStorage.setItem('karmis-theme', theme);
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      if (el) el.classList.add('active');
+
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      const activeSec = document.getElementById('view-' + tabId);
+      if (activeSec) activeSec.classList.add('active');
+
+      const titles = {
+        dashboard: 'KARMİS Executive Dashboard',
+        dna: 'Kariyer DNA Envanteri',
+        target: 'Hedef Kariyer Durumu',
+        gaps: 'Yetkinlik Açığı Analiz Motoru',
+        jobs: '11 Boyutlu İlan Değerlendirme Motoru',
+        evidence: 'Kanıt Cüzdanı (Evidence Wallet)',
+        next: 'En Yüksek Kaldıraçlı Hamle & Eylem Planı',
+        simulator: 'Kariyer Senaryo Simülatörü',
+        applications: 'Aktif Başvuru Takip Tablosu',
+        analytics: 'Kariyer Analitiği & Öğrenme Döngüsü',
+        settings: 'Sistem Ayarları & Yerel Tercihler'
+      };
+      document.getElementById('topHeaderTitle').innerText = titles[tabId] || 'KARMİS V2';
+
+      if (tabId === 'dashboard') loadDashboard();
+      if (tabId === 'dna') loadDnaView();
+      if (tabId === 'target') loadTargetView();
+      if (tabId === 'gaps') loadGapsView();
+      if (tabId === 'evidence') loadEvidenceView();
+      if (tabId === 'next') loadNextMoveView();
+      if (tabId === 'simulator') loadSimulatorView();
+      if (tabId === 'applications') loadApplicationsView();
+      if (tabId === 'analytics') loadAnalyticsView();
+      if (tabId === 'settings') loadSettingsView();
     }
 
-    function getStatusClass(status) {
-      if (status === 'Applied') return 'status-applied';
-      if (status === 'Responded') return 'status-responded';
-      if (status === 'Interviewing') return 'status-interviewing';
-      if (status === 'Rejected' || status === 'İptal Edildi') return 'status-rejected';
-      return 'status-applied';
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
     }
 
-    async function loadApplications() {
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    async function loadDashboard() {
       try {
-        const res = await fetch('/api/applications');
-        rawApplications = await res.json();
-        renderTable();
+        const [dnaRes, nextRes, gapsRes, appsRes, anRes] = await Promise.all([
+          fetch('/api/dna').then(r => r.json()),
+          fetch('/api/next').then(r => r.json()),
+          fetch('/api/gaps').then(r => r.json()),
+          fetch('/api/applications').then(r => r.json()),
+          fetch('/api/analytics').then(r => r.json())
+        ]);
+
+        currentDna = dnaRes;
+
+        const m = nextRes.move || {};
+        const tgt = dnaRes.targetCareerState || {};
+        const curr = dnaRes.financialGoals?.currency || 'EUR';
+        const formattedSalary = tgt.targetSalary ? `${curr === 'EUR' ? '€' : ''}${tgt.targetSalary.toLocaleString()} ${curr !== 'EUR' ? curr : ''}/ay` : 'Belirtilmedi';
+        const topGapsList = (gapsRes.topGaps && gapsRes.topGaps.length > 0)
+          ? gapsRes.topGaps.slice(0, 3).map(g => g.name || g.skillName).join(', ')
+          : 'Kritik yetkinlik açığı bulunamadı';
+
+        const marketPosText = `${dnaRes.currentLevel || 'MID'} Düzeyi Uzman (${dnaRes.yearsOfExperience || 0} Yıl Deneyim)`;
+
+        // Section 24: The 4 Core Questions
+        if (document.getElementById('qWhereRole')) document.getElementById('qWhereRole').innerText = dnaRes.currentRole || 'Belirtilmedi';
+        if (document.getElementById('qWhereLevel')) document.getElementById('qWhereLevel').innerText = dnaRes.currentLevel || 'MID';
+        if (document.getElementById('qWhereMarket')) document.getElementById('qWhereMarket').innerText = marketPosText;
+        if (document.getElementById('qWhereExp')) document.getElementById('qWhereExp').innerText = `${dnaRes.yearsOfExperience || 0} Yıl Deneyim`;
+
+        if (document.getElementById('qGoingRole')) document.getElementById('qGoingRole').innerText = tgt.targetRole || 'Belirtilmedi';
+        if (document.getElementById('qGoingLevel')) document.getElementById('qGoingLevel').innerText = tgt.targetLevel || 'SENIOR';
+        if (document.getElementById('qGoingSalary')) document.getElementById('qGoingSalary').innerText = formattedSalary;
+        if (document.getElementById('qGoingTimeline')) document.getElementById('qGoingTimeline').innerText = `${tgt.targetTimelineMonths || 12} Ay`;
+
+        if (document.getElementById('qBlockingGaps')) document.getElementById('qBlockingGaps').innerText = topGapsList;
+        if (document.getElementById('qBlockingBottleneck')) document.getElementById('qBlockingBottleneck').innerText = m.bottleneck || 'Kanıt doğrulaması bekleniyor';
+
+        if (document.getElementById('qNextAction')) document.getElementById('qNextAction').innerText = m.action || '-';
+        if (document.getElementById('qNextWhy')) document.getElementById('qNextWhy').innerText = m.why || '-';
+        if (document.getElementById('qNextImpact')) document.getElementById('qNextImpact').innerText = m.expectedImpact || 'Yüksek';
+        if (document.getElementById('qNextTime')) document.getElementById('qNextTime').innerText = m.estimatedTime || '-';
+
+        // Section 25: CAREER HEALTH Summary Block
+        if (document.getElementById('chCurrentLevel')) document.getElementById('chCurrentLevel').innerText = dnaRes.currentLevel || 'MID';
+        if (document.getElementById('chMarketPosition')) document.getElementById('chMarketPosition').innerText = marketPosText;
+        if (document.getElementById('chTargetRole')) document.getElementById('chTargetRole').innerText = tgt.targetRole || 'Belirtilmedi';
+        if (document.getElementById('chTargetSalary')) document.getElementById('chTargetSalary').innerText = formattedSalary;
+        if (document.getElementById('chTopSkillGaps')) document.getElementById('chTopSkillGaps').innerText = topGapsList;
+        const appCount = Array.isArray(appsRes) ? appsRes.length : 0;
+        const intRate = (anRes && typeof anRes.interviewRate !== 'undefined') ? anRes.interviewRate : 0;
+        const offRate = (anRes && typeof anRes.offerRate !== 'undefined') ? anRes.offerRate : 0;
+        if (document.getElementById('chCurrentOpportunities')) document.getElementById('chCurrentOpportunities').innerText = `${appCount} Takip Edilen Pozisyon`;
+        if (document.getElementById('chApplicationPipeline')) document.getElementById('chApplicationPipeline').innerText = `${appCount} Başvuru · %${intRate} Mülakat · %${offRate} Teklif`;
+
+        if (document.getElementById('chNextAction')) document.getElementById('chNextAction').innerText = m.action || '-';
+        if (document.getElementById('chNextWhy')) document.getElementById('chNextWhy').innerText = m.why || '-';
+        if (document.getElementById('chNextImpact')) document.getElementById('chNextImpact').innerText = m.expectedImpact || 'Yüksek';
+        if (document.getElementById('chNextTime')) document.getElementById('chNextTime').innerText = m.estimatedTime || '-';
+
+        // 30 Day Plan
+        const p = nextRes.plan?.thirtyDay;
+        if (p) {
+          if (document.getElementById('dashThirtyPlanDesc')) document.getElementById('dashThirtyPlanDesc').innerText = p.objective;
+          if (document.getElementById('dashThirtyPlanActions')) document.getElementById('dashThirtyPlanActions').innerHTML = p.actions.map(a => `<li>${escapeHtml(a)}</li>`).join('');
+        }
       } catch (err) {
-        console.error('Error loading applications:', err);
+        console.error('Failed to load dashboard:', err);
       }
     }
 
-    function setFilter(filter, btn) {
-      currentFilter = filter;
-      currentPage = 1;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderTable();
+    async function loadDnaView() {
+      const dna = await fetch('/api/dna').then(r => r.json());
+      currentDna = dna;
+      document.getElementById('dnaName').value = dna.identity.name || '';
+      document.getElementById('dnaTitle').value = dna.identity.title || '';
+      document.getElementById('dnaLevel').value = dna.currentLevel || 'MID';
+      document.getElementById('dnaYears').value = dna.yearsOfExperience || 0;
+      document.getElementById('dnaEmail').value = dna.identity.email || '';
+      document.getElementById('dnaPhone').value = dna.identity.phone || '';
+      document.getElementById('dnaLocation').value = dna.identity.location || '';
+      document.getElementById('dnaPortfolio').value = dna.identity.portfolio || '';
     }
 
-    function onSearchInput() {
-      currentPage = 1;
-      renderTable();
-    }
+    async function saveDnaForm() {
+      if (!currentDna) return;
+      currentDna.identity.name = document.getElementById('dnaName').value;
+      currentDna.identity.title = document.getElementById('dnaTitle').value;
+      currentDna.currentRole = document.getElementById('dnaTitle').value;
+      currentDna.currentLevel = document.getElementById('dnaLevel').value;
+      currentDna.yearsOfExperience = parseFloat(document.getElementById('dnaYears').value) || 0;
+      currentDna.identity.email = document.getElementById('dnaEmail').value;
+      currentDna.identity.phone = document.getElementById('dnaPhone').value;
+      currentDna.identity.location = document.getElementById('dnaLocation').value;
+      currentDna.identity.portfolio = document.getElementById('dnaPortfolio').value;
 
-    function changePage(delta) {
-      currentPage += delta;
-      renderTable();
-    }
-
-    function sortTable(column) {
-      if (sortColumn === column) {
-        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-      } else {
-        sortColumn = column;
-        sortDirection = (column === 'date' || column === 'score') ? 'desc' : 'asc';
-      }
-      renderTable();
-    }
-
-    function updateSortHeaderStyles() {
-      ['date', 'company', 'position', 'score'].forEach(col => {
-        const th = document.getElementById('th-' + col);
-        if (!th) return;
-        if (col === sortColumn) {
-          th.classList.add('active-sort');
-          const icon = th.querySelector('.sort-icon');
-          if (icon) {
-            icon.style.transform = sortDirection === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)';
-          }
-        } else {
-          th.classList.remove('active-sort');
-          const icon = th.querySelector('.sort-icon');
-          if (icon) icon.style.transform = 'rotate(0deg)';
-        }
+      await fetch('/api/dna', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentDna)
       });
+      alert('Kariyer DNA başarıyla kaydedildi.');
     }
 
-    function isFollowupNeeded(appDate, status) {
-      if (status !== 'Applied') return false;
-      const appTime = new Date(appDate).getTime();
-      const now = new Date().getTime();
-      const diffDays = (now - appTime) / (1000 * 3600 * 24);
-      return diffDays >= 5;
+    async function loadTargetView() {
+      const dna = await fetch('/api/dna').then(r => r.json());
+      currentDna = dna;
+      const tgt = dna.targetCareerState || {};
+      document.getElementById('tgtRole').value = tgt.targetRole || '';
+      document.getElementById('tgtLevel').value = tgt.targetLevel || 'SENIOR';
+      document.getElementById('tgtIndustry').value = tgt.targetIndustry || '';
+      document.getElementById('tgtGeography').value = tgt.targetGeography || '';
+      document.getElementById('tgtSalary').value = tgt.targetSalary || 0;
+      document.getElementById('tgtTimeline').value = tgt.targetTimelineMonths || 12;
     }
 
-    function renderTable() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = '';
-
-      updateSortHeaderStyles();
-
-      let filtered = rawApplications.filter(app => {
-        const matchesFilter = currentFilter === 'all' ? true : app.status === currentFilter;
-        const matchesSearch = app.company.toLowerCase().includes(search) || app.position.toLowerCase().includes(search);
-        return matchesFilter && matchesSearch;
+    async function saveTargetForm() {
+      if (!currentDna) return;
+      currentDna.targetCareerState = {
+        targetRole: document.getElementById('tgtRole').value,
+        targetLevel: document.getElementById('tgtLevel').value,
+        targetIndustry: document.getElementById('tgtIndustry').value,
+        targetGeography: document.getElementById('tgtGeography').value,
+        targetSalary: parseFloat(document.getElementById('tgtSalary').value) || 0,
+        targetWorkingModel: 'hybrid',
+        targetTimelineMonths: parseInt(document.getElementById('tgtTimeline').value, 10) || 12
+      };
+      await fetch('/api/dna', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentDna)
       });
+      alert('Hedef Kariyer Durumu güncellendi.');
+    }
 
-      filtered.sort((a, b) => {
-        let valA = a[sortColumn] || '';
-        let valB = b[sortColumn] || '';
-
-        if (sortColumn === 'score') {
-          valA = parseInt(valA.replace('%', '')) || 0;
-          valB = parseInt(valB.replace('%', '')) || 0;
-        }
-
-        if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
-        if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
-        return 0;
-      });
-
-      const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
-      if (currentPage > totalPages) currentPage = totalPages;
-      if (currentPage < 1) currentPage = 1;
-
-      document.getElementById('pageIndicator').innerText = `${currentPage} / ${totalPages}`;
-      document.getElementById('prevBtn').disabled = (currentPage === 1);
-      document.getElementById('nextBtn').disabled = (currentPage === totalPages);
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--text-muted); padding: 30px;">Kayıt bulunamadı.</td></tr>';
+    async function loadGapsView() {
+      const data = await fetch('/api/gaps').then(r => r.json());
+      const tbody = document.getElementById('gapsTableBody');
+      if (!data.gaps || data.gaps.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7">Açık bulunamadı veya tüm yetkinlikler tam uyumlu.</td></tr>';
         return;
       }
+      tbody.innerHTML = data.gaps.map(g => {
+        let badgeClass = 'badge-pass';
+        if (g.rating === 'STRONG') badgeClass = 'badge-apply';
+        else if (g.rating === 'ADEQUATE') badgeClass = 'badge-maybe';
 
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const pageItems = filtered.slice(startIndex, startIndex + itemsPerPage);
-
-      pageItems.forEach(app => {
-        const statusClass = getStatusClass(app.status);
-        const needsFollowup = isFollowupNeeded(app.date, app.status);
-        const linkedinSearchUrl = `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(app.company)}%20Talent%20Acquisition`;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+        return `<tr>
+          <td><strong>${escapeHtml(g.skillName)}</strong></td>
+          <td>${escapeHtml(g.importance)}</td>
+          <td>${escapeHtml(g.currentLevel)}/5</td>
+          <td>${escapeHtml(g.targetLevel)}/5</td>
+          <td>${escapeHtml(g.gapSize)}</td>
+          <td><span class="badge ${badgeClass}">${escapeHtml(g.rating)}</span></td>
           <td>
-            ${app.date}
-            ${needsFollowup ? '<span class="followup-badge" title="5 iş gününü geçti, takip mesajı zamanı!">⏰ Takip Et</span>' : ''}
+            <div style="font-size: 12px;">${escapeHtml(g.recommendedAction)}</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Süre: ${escapeHtml(g.estimatedEffort)} | Kanıt: ${escapeHtml(g.evidenceRequired)}</div>
           </td>
-          <td><strong>${app.company}</strong></td>
-          <td>${app.position}</td>
-          <td><span class="score-badge">${app.score}</span></td>
-          <td>${app.source}</td>
-          <td>
-            <select class="status-select ${statusClass}" onchange="updateStatus('${app.company}', '${app.position}', this.value, this)">
-              <option value="Applied" ${app.status === 'Applied' ? 'selected' : ''}>Devam Ediyor</option>
-              <option value="Responded" ${app.status === 'Responded' ? 'selected' : ''}>Yanıt Alındı</option>
-              <option value="Interviewing" ${app.status === 'Interviewing' ? 'selected' : ''}>Mülakat</option>
-              <option value="Rejected" ${app.status === 'Rejected' || app.status === 'İptal Edildi' ? 'selected' : ''}>İptal Edildi</option>
-            </select>
-          </td>
-          <td>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span>${app.contact || '-'}</span>
-              <a href="${linkedinSearchUrl}" target="_blank" title="${app.company} İK Liderini LinkedIn'de Bul" style="color: #0a66c2; text-decoration: none;">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-              </a>
-            </div>
-          </td>
-          <td style="text-align: center;">
-            <a href="${app.link}" target="_blank" class="btn-icon" title="İlan Linkini Aç" aria-label="İlan Linki">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </a>
-          </td>
-          <td style="text-align: center;">
-            <button class="btn-icon" onclick="viewReport('${app.company}', '${app.position}')" title="Değerlendirme Raporunu Gör" aria-label="Raporu Gör">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-            </button>
-          </td>
-          <td style="text-align: center;">
-            <button class="btn-icon" onclick="openNotesModal('${app.company}', '${app.position}', '${encodeURIComponent(app.notes || '')}')" title="Görüşme / Telefon Notu Ekle" aria-label="Not Ekle">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-              </svg>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+        </tr>`;
+      }).join('');
     }
 
-    async function updateStatus(company, position, newStatus, selectElem) {
+    async function loadEvidenceView() {
+      const items = await fetch('/api/evidence').then(r => r.json());
+      const tbody = document.getElementById('evidenceTableBody');
+      if (items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">Kanıt cüzdanı boş. "+ Yeni Kanıt Ekle" butonuyla ekleyin.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = items.map(item => `
+        <tr>
+          <td>
+            <strong>${escapeHtml(item.title)}</strong>
+            <div style="font-size: 11.5px; color: var(--text-muted);">${escapeHtml(item.description || '')}</div>
+          </td>
+          <td><strong style="color: #60a5fa;">${escapeHtml(item.metric || '-')}</strong></td>
+          <td>${(item.skills || []).map(s => `<span class="badge" style="background: rgba(37,99,235,0.15); color: #93c5fd; margin-right:4px;">${escapeHtml(s)}</span>`).join('')}</td>
+          <td>${escapeHtml(item.date)}</td>
+          <td><span class="badge ${item.strength === 'STRONG' ? 'badge-apply' : 'badge-maybe'}">${escapeHtml(item.strength)}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function openAddEvidenceModal() {
+      openModal('addEvidenceModal');
+    }
+
+    async function submitNewEvidence() {
+      const title = document.getElementById('newEviTitle').value;
+      const metric = document.getElementById('newEviMetric').value;
+      const desc = document.getElementById('newEviDesc').value;
+      const skillsRaw = document.getElementById('newEviSkills').value;
+      const strength = document.getElementById('newEviStrength').value;
+
+      if (!title) { alert('Lütfen bir başlık girin.'); return; }
+
+      await fetch('/api/evidence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          metric,
+          description: desc,
+          skills: skillsRaw.split(',').map(s => s.trim()).filter(Boolean),
+          strength
+        })
+      });
+
+      closeModal('addEvidenceModal');
+      loadEvidenceView();
+    }
+
+    async function loadNextMoveView() {
+      const res = await fetch('/api/next').then(r => r.json());
+      const m = res.move;
+      document.getElementById('nextMoveActionTitle').innerText = m.action;
+      document.getElementById('nextMoveWhyDesc').innerText = m.why;
+      document.getElementById('nextMoveBottleneckDesc').innerText = m.bottleneck;
+      document.getElementById('nextMoveTimeDesc').innerText = m.estimatedTime;
+      document.getElementById('nextMoveSuccessMetric').innerText = m.successMetric;
+
+      const p = res.plan;
+      const grid = document.getElementById('planPhasesGrid');
+      grid.innerHTML = [p.thirtyDay, p.sixtyDay, p.ninetyDay].map(phase => `
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title">${phase.phase}</div>
+          <div style="font-weight: 700; margin-bottom: 8px;">${phase.objective}</div>
+          <ul style="list-style: disc; margin-left: 18px; font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+            ${phase.actions.map(a => `<li>${a}</li>`).join('')}
+          </ul>
+          <div style="font-size: 11.5px; border-top: 1px solid var(--card-border); padding-top: 8px;">
+            Kanıt Çıktısı: <strong>${phase.evidenceProduced}</strong>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadSimulatorView() {
+      const data = await fetch('/api/simulate').then(r => r.json());
+      const tbody = document.getElementById('simulatorTableBody');
+      tbody.innerHTML = data.sim.scenarios.map(s => `
+        <tr>
+          <td><strong>${s.label}</strong></td>
+          <td>${(s.threeYearIncomeMin/1000).toFixed(0)}K – ${(s.threeYearIncomeMax/1000).toFixed(0)}K ${data.sim.currency}</td>
+          <td><span class="badge ${s.risk === 'Low' ? 'badge-apply' : s.risk === 'Extreme' ? 'badge-pass' : 'badge-maybe'}">${s.risk}</span></td>
+          <td><strong>%${s.successProbability}</strong></td>
+          <td>${s.skillGrowth}</td>
+          <td>${s.careerOptionality}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadApplicationsView() {
+      const apps = await fetch('/api/applications').then(r => r.json());
+      const tbody = document.getElementById('appsTableBody');
+      if (!Array.isArray(apps) || apps.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8">Kayıtlı başvuru bulunamadı.</td></tr>';
+        return;
+      }
+      const stages = ['SAVED', 'ANALYZED', 'MAYBE', 'APPLIED', 'SCREENING', 'INTERVIEW', 'FINAL', 'OFFER', 'ACCEPTED', 'REJECTED', 'WITHDRAWN'];
+      tbody.innerHTML = apps.map(a => {
+        const safeCompany = escapeHtml(a.company);
+        const safePosition = escapeHtml(a.position);
+        const encCompany = encodeURIComponent(a.company || '');
+        const encPosition = encodeURIComponent(a.position || '');
+        const currStatus = (a.status || 'APPLIED').toUpperCase();
+
+        const optionsHtml = stages.map(st => {
+          const isSel = st === currStatus || (st === 'INTERVIEW' && currStatus === 'INTERVIEWING') || (st === 'SCREENING' && currStatus === 'RESPONDED');
+          return `<option value="${st}" ${isSel ? 'selected' : ''}>${st}</option>`;
+        }).join('');
+
+        return `<tr>
+          <td><strong>${safeCompany}</strong></td>
+          <td>${safePosition}</td>
+          <td><strong style="color: #60a5fa;">%${Math.round(a.score || 0)}</strong></td>
+          <td>${escapeHtml(a.date)}</td>
+          <td>${escapeHtml(a.source || 'Portal')}</td>
+          <td>
+            <select style="background: var(--input-bg); color: var(--text); border: 1px solid var(--card-border); border-radius: 4px; padding: 3px 6px; font-size: 11.5px; cursor: pointer;" onchange="changeAppStatus(this, '${encCompany}', '${encPosition}')">
+              ${optionsHtml}
+            </select>
+          </td>
+          <td>${escapeHtml(a.last_contact_date || a.lastContactDate || '-')}</td>
+          <td>
+            <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 11px;" onclick="viewReport(decodeURIComponent('${encCompany}'), decodeURIComponent('${encPosition}'))">Rapor</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function changeAppStatus(selectEl, encCompany, encPosition) {
+      const company = decodeURIComponent(encCompany);
+      const position = decodeURIComponent(encPosition);
+      const newStatus = selectEl.value;
       try {
-        if (selectElem) {
-          selectElem.className = 'status-select ' + getStatusClass(newStatus);
-        }
-        await fetch('/api/applications/update', {
+        const res = await fetch('/api/applications/update', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ company, position, newStatus })
-        });
-        loadApplications();
+        }).then(r => r.json());
+        if (!res.success) {
+          alert('Durum güncellenemedi.');
+        }
       } catch (err) {
-        alert('Durum güncellenemedi');
+        console.error('Failed to update status:', err);
+        alert('Durum güncellenemedi: ' + err.message);
       }
     }
 
-    function openNotesModal(company, position, encodedNotes) {
-      activeNoteApp = { company, position };
-      const currentNotes = decodeURIComponent(encodedNotes || '');
-
-      document.getElementById('noteModalTitle').innerText = `Görüşme Notu: ${company}`;
-      document.getElementById('noteModalSub').innerText = `Pozisyon: ${position}`;
-      document.getElementById('noteInputText').value = currentNotes;
-      document.getElementById('notesModal').classList.add('active');
+    async function loadAnalyticsView() {
+      const an = await fetch('/api/analytics').then(r => r.json());
+      document.getElementById('anTotalApps').innerText = an.totalApplications;
+      document.getElementById('anInterviewRate').innerText = '%' + an.interviewRate;
+      document.getElementById('anOfferRate').innerText = '%' + an.offerRate;
+      document.getElementById('anAvgScore').innerText = '%' + an.averageScore;
+      document.getElementById('anCalibrationInsight').innerText = an.learningLoop.calibrationInsight;
     }
 
-    function appendStamp(stampText) {
-      const txt = document.getElementById('noteInputText');
-      const today = new Date().toLocaleDateString('tr-TR');
-      txt.value = `[${today}] ${stampText}` + txt.value;
+    async function runJobEvaluation() {
+      const company = document.getElementById('evalCompany').value || 'Kurumsal Şirket';
+      const title = document.getElementById('evalPosition').value || 'Target Role';
+      const desc = document.getElementById('evalDescription').value || '';
+
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ company, title, rawDescription: desc })
+      }).then(r => r.json());
+
+      document.getElementById('evalResultContainer').style.display = 'block';
+      document.getElementById('evalCompanyDisplay').innerText = res.company;
+      document.getElementById('evalRoleDisplay').innerText = res.jobTitle + ' · ' + res.location;
+
+      let badgeClass = res.decisionCode === 'APPLY' ? 'badge-apply' : res.decisionCode === 'MAYBE' ? 'badge-maybe' : 'badge-pass';
+      document.getElementById('evalDecisionBadge').innerHTML = `<span class="badge ${badgeClass}" style="font-size: 14px; padding: 6px 12px;">${escapeHtml(res.decisionCode)}: ${escapeHtml(res.decision)} (%${res.score})</span>`;
+
+      const dims = res.dimensions || {};
+      const dimItems = [
+        { label: 'Yetkinlik Uyumu', val: dims.skillFit },
+        { label: 'Deneyim Uyumu', val: dims.experienceFit },
+        { label: 'Kıdem Kademesi', val: dims.seniorityFit },
+        { label: 'Maaş Uyumu', val: dims.salaryFit },
+        { label: 'Kariyer Sıçraması', val: dims.careerUpside },
+        { label: 'Lokasyon Uyumu', val: dims.locationFit },
+        { label: 'Çalışma Modeli', val: dims.workModelFit },
+        { label: 'Sektör Uyumu', val: dims.industryFit },
+        { label: 'Başarı Olasılığı', val: dims.successProbability },
+        { label: 'Risk Skoru', val: dims.risk },
+        { label: 'Fırsat Maliyeti', val: dims.opportunityCost }
+      ];
+
+      document.getElementById('evalDimensionsGrid').innerHTML = dimItems.map(d => `
+        <div class="card" style="margin-bottom: 0; padding: 12px 14px;">
+          <div class="card-title" style="font-size: 11px;">${escapeHtml(d.label)}</div>
+          <div class="card-val" style="font-size: 17px;">%${d.val !== undefined ? d.val : 0}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('evalPositiveReasons').innerHTML = (res.reasons?.positive || []).map(p => `<li>${escapeHtml(p)}</li>`).join('') || '<li>Belirgin pozitif etken kaydedilmedi.</li>';
+      document.getElementById('evalNegativeReasons').innerHTML = (res.reasons?.negative || []).map(n => `<li>${escapeHtml(n)}</li>`).join('') || '<li>Kritik risk tespit edilmedi.</li>';
     }
 
-    async function saveNote() {
-      if (!activeNoteApp) return;
-      const newNotes = document.getElementById('noteInputText').value;
-
+    async function syncGoogleDriveCsv() {
       try {
-        await fetch('/api/applications/update-notes', {
+        const res = await fetch('/api/sync-csv', { method: 'POST' }).then(r => r.json());
+        if (res.success) {
+          alert('Başvuru Takip Dosyası senkronize edildi: ' + res.csvPath);
+        } else {
+          alert('Senkronizasyon hatası: ' + (res.error || 'Bilinmeyen hata'));
+        }
+      } catch (err) {
+        alert('Senkronizasyon başarısız: ' + err.message);
+      }
+    }
+
+    function viewReport(company, position) {
+      window.open('/api/reports?company=' + encodeURIComponent(company) + '&position=' + encodeURIComponent(position), '_blank');
+    }
+
+    async function loadSettingsView() {
+      try {
+        const data = await fetch('/api/settings').then(r => r.json());
+        if (document.getElementById('settingAiProvider')) {
+          document.getElementById('settingAiProvider').value = data.aiProvider || 'local';
+        }
+        if (document.getElementById('settingDbPath')) {
+          document.getElementById('settingDbPath').value = data.dbPath || '';
+        }
+        if (document.getElementById('settingCsvPath')) {
+          document.getElementById('settingCsvPath').value = data.csvPath || '';
+        }
+        if (document.getElementById('settingOpenAiStatus')) {
+          document.getElementById('settingOpenAiStatus').innerHTML = data.envKeys?.openai
+            ? '<span class="badge badge-apply">Tanımlı (Configured)</span>'
+            : '<span class="badge badge-maybe">Tanımlanmamış (Offline Fallback)</span>';
+        }
+        if (document.getElementById('settingAnthropicStatus')) {
+          document.getElementById('settingAnthropicStatus').innerHTML = data.envKeys?.anthropic
+            ? '<span class="badge badge-apply">Tanımlı (Configured)</span>'
+            : '<span class="badge badge-maybe">Tanımlanmamış (Offline Fallback)</span>';
+        }
+      } catch (err) {
+        console.error('Failed to load settings:', err);
+      }
+    }
+
+    async function saveSettingsForm() {
+      try {
+        const aiProvider = document.getElementById('settingAiProvider').value;
+        const csvPath = document.getElementById('settingCsvPath').value;
+        const res = await fetch('/api/settings', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            company: activeNoteApp.company,
-            position: activeNoteApp.position,
-            newNotes: newNotes
-          })
+          body: JSON.stringify({ aiProvider, csvPath })
         });
-        closeModal('notesModal');
-        loadApplications();
-        alert('Görüşme Notu kaydedildi ve CSV takip dosyasına senkronize edildi!');
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          alert('Ayarlar kaydedilemedi: ' + (data.error || 'Bilinmeyen hata'));
+          return;
+        }
+        const statusEl = document.getElementById('settingsSaveStatus');
+        if (statusEl) {
+          statusEl.style.display = 'inline';
+          setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+        }
       } catch (err) {
-        alert('Not kaydedilemedi');
+        console.error('Failed to save settings:', err);
+        alert('Ayarlar kaydedilemedi: ' + err.message);
       }
     }
 
-    async function viewReport(company, position) {
-      try {
-        const res = await fetch(`/api/reports?company=${encodeURIComponent(company)}&position=${encodeURIComponent(position)}`);
-        const reportData = await res.json();
-        currentReportObj = reportData;
-
-        document.getElementById('modalTitle').innerText = `Değerlendirme Raporu: ${company} - ${position}`;
-        document.getElementById('modalReportContent').innerHTML = reportData.htmlContent;
-        document.getElementById('reportModal').classList.add('active');
-      } catch (err) {
-        alert('Rapor yüklenemedi');
-      }
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('active');
-    }
-
-    function copyCoverLetter() {
-      if (currentReportObj && currentReportObj.coverLetter) {
-        navigator.clipboard.writeText(currentReportObj.coverLetter);
-        alert('Kapak Mektubu panoya kopyalandı!');
-      }
-    }
-
-    function printReport() {
-      window.print();
-    }
-
-    function copyLinkedinNote() {
-      if (currentReportObj && currentReportObj.linkedinNote) {
-        navigator.clipboard.writeText(currentReportObj.linkedinNote);
-        alert('LinkedIn Mesajı panoya kopyalandı!');
-      }
-    }
-
-    initTheme();
-    loadApplications();
+    // Initialize Dashboard on load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadDashboard();
+    });
   </script>
 </body>
 </html>
