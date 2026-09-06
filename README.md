@@ -8,6 +8,10 @@ Know where you are. Know where you can go. Know what to do next.
 [![Node.js: >=18.0.0](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-blue.svg)](package.json)
 [![No Telemetry](https://img.shields.io/badge/Telemetry-Zero-lightgrey.svg)](#9-privacy)
 
+<p align="center">
+  <img src="docs/assets/social-preview.jpg" alt="KARMİS V2 — Personal Career Decision Engine" width="100%" />
+</p>
+
 KARMİS is an open-source, privacy-first career decision engine.
 It models your career state, calculates skill gaps, evaluates job postings across 11 dimensions, and recommends your single highest-value next action.
 
