@@ -1,246 +1,194 @@
-# KARMİS V2 — Personal Career Decision Engine
+<div align="center">
 
-Know where you are. Know where you can go. Know what to do next.
+# KARMİS
+
+**Personal Career Decision Engine**
+
+*Know where you are. Know where you can go. Know what to do next.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests: 56 passed](https://img.shields.io/badge/Tests-56%20passed-success.svg)](#11-testing)
-[![Privacy: Local--First](https://img.shields.io/badge/Privacy-Local--First%20(SQLite)-brightgreen.svg)](#9-privacy)
+[![Tests: 56 passed](https://img.shields.io/badge/Tests-56%20passed-success.svg)](#-testing)
+[![Privacy: Local--First](https://img.shields.io/badge/Privacy-Local--First%20(SQLite)-brightgreen.svg)](#-privacy)
 [![Node.js: >=18.0.0](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-blue.svg)](package.json)
-[![No Telemetry](https://img.shields.io/badge/Telemetry-Zero-lightgrey.svg)](#9-privacy)
+[![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero-lightgrey.svg)](#-privacy)
 
-<p align="center">
-  <img src="docs/assets/social-preview.jpg" alt="KARMİS V2 — Personal Career Decision Engine" width="100%" />
-</p>
+<br />
 
-KARMİS is an open-source, privacy-first career decision engine.
-It models your career state, calculates skill gaps, evaluates job postings across 11 dimensions, and recommends your single highest-value next action.
+<img src="docs/assets/social-preview.jpg" alt="KARMİS V2 — Personal Career Decision Engine" width="100%" style="border-radius: 8px;" />
 
----
+<br />
 
-## 1. What KARMİS is
+</div>
 
-KARMİS is an open-source, privacy-first personal career decision engine.
-It replaces generic advice with evidence-based decision logic.
-It evaluates career choices locally on your machine with SQLite.
-
-## 2. Who it is for
-
-KARMİS is domain-neutral. It serves professionals across all industries:
-- Software Engineering & Data
-- Accounting & Finance
-- Sales & Marketing
-- Healthcare & Medicine
-- Operations, HR & Law
-- Students, Interns & Entry-Level Employees
-- Managers & C-Level Executives
-- Freelancers, Consultants & Career Changers
-
-## 3. Why it exists
-
-Job search platforms encourage mass low-quality applications.
-Generic career advice provides vague motivational statements.
-KARMİS enforces five engineering principles:
-1. **Decision over generation**: Concrete choices instead of text output.
-2. **Evidence over claims**: Quantified case studies instead of buzzword lists.
-3. **Outcomes over predictions**: Real application results instead of speculative certainty.
-4. **Actions over advice**: Practical tasks instead of generic coaching.
-5. **Ranges over fake precision**: Realistic scenarios instead of false single numbers.
+> **KARMİS** is an open-source, privacy-first career decision engine. Instead of generating generic motivational text, it runs deterministic decision algorithms locally on SQLite to model your career baseline, calculate skill gaps, evaluate opportunities across 11 dimensions, detect 17 career risks, and compute your single highest-leverage next move.
 
 ---
 
-## 4. Core features
+### 🌐 Domain-Neutral by Design
 
-- **Career DNA & Target State**: Models identity, competencies, constraints, and target career levels.
-- **Skill Gap Engine**: Identifies missing competencies and recommends verifiable learning actions.
-- **11-Dimension Job Evaluator**: Analyzes jobs by Skill, Experience, Seniority, Salary, Upside, Location, Work Model, Industry, Probability, Risk, and Opportunity Cost.
-- **Three-State Decision Engine**: Generates `APPLY`, `PASS`, or `MAYBE` recommendations with explicit reasoning.
-- **Expanded Risk Engine**: Detects 17 distinct career risks including downleveling, underpayment, cold calling quotas, and bureaucracy.
-- **Evidence Wallet**: Stores verified achievements and distinguishes missing skills from missing evidence.
-- **Next Best Move**: Identifies your single highest-leverage career action and generates 30/60/90-day plans.
-- **Career Scenario Simulator**: Compares 8 career paths (Stay, Promote, Switch Company, Pivot, Specialize, Freelance, Consult, Start Business).
-- **Application Tracker & Analytics**: Tracks recruitment funnels and calibrates success rates via a personal learning loop.
-- **Local Web Dashboard**: High-density local control panel with Flowbite SVG icons and zero telemetry.
+KARMİS is not designed exclusively for software engineering. It models career progression neutrally across all industries:
+- **Domains:** Software & Data, Accounting & Finance, Sales & Marketing, Healthcare, Operations, HR, Legal, Consulting, Manufacturing.
+- **Tiers:** Student, Intern, Entry-Level, Junior, Mid, Senior, Lead, Manager, Director, VP, C-Level, Founder, Freelancer, and Career Changer.
 
 ---
 
-## 5. Architecture
+### 📐 5 Core Principles
+
+| # | Principle | Engineering Mandate |
+| :-: | :--- | :--- |
+| **1** | **Decision > Generation** | Deterministic multi-dimensional scoring over raw LLM text generation |
+| **2** | **Evidence > Claims** | Verifiable metrics and concrete project deliverables over empty keywords |
+| **3** | **Outcomes > Predictions** | Empirical recruitment funnel calibration over speculative certainty |
+| **4** | **Actions > Advice** | Specific 30/60/90-day deliverables over abstract motivational coaching |
+| **5** | **Ranges > Fake Precision** | Confidence intervals and salary bands over misleading single-number estimates |
+
+---
+
+### ⚡ Architecture & Core Engines
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                       Presentation Layer                    │
-│   CLI (bin/karmis.js)     │     Web Dashboard (Port 3005)   │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│                        Engine Layer                         │
-│  - Career DNA Engine (lib/dna.js)                           │
-│  - Skill Taxonomy & Gap Engine (lib/skills.js)              │
-│  - Multi-Dimensional Job Evaluator (lib/evaluator.js)       │
-│  - Expanded Risk Engine (lib/risk.js)                       │
-│  - Evidence Wallet & Matcher (lib/evidence.js)              │
-│  - Next Best Move Engine (lib/decision.js)                  │
-│  - Career Simulator & Salary Trajectory (lib/simulator.js)  │
-│  - Career Analytics & Learning Loop (lib/analytics.js)      │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│                   Data & Persistence Layer                  │
-│  - SQLite Database Manager (lib/db.js)                      │
-│  - Schema Migrations (lib/migrations/*.sql)                 │
-│  - CSV Sync Compatibility Layer (lib/tracker.js)            │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-┌───────────────────────────▼─────────────────────────────────┐
-│                  AI Isolation Layer (Optional)              │
-│  - Adapter Interface (lib/ai/provider.js)                   │
-│  - Providers: local.js (default offline), openai, anthropic │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           Presentation Layer                            │
+│     CLI (bin/karmis.js)         │         Web Dashboard (Port 3005)     │
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │
+┌─────────────────────────────────▼───────────────────────────────────────┐
+│                              Engine Layer                               │
+│  - Career DNA (lib/dna.js)             - Skill Gaps (lib/skills.js)     │
+│  - 11D Evaluator (lib/evaluator.js)    - 17-Point Risk (lib/risk.js)    │
+│  - Evidence Wallet (lib/evidence.js)   - Next Best Move (lib/decision.js)│
+│  - Scenario Simulator (lib/simulator)  - Funnel Analytics (analytics.js)│
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │
+┌─────────────────────────────────▼───────────────────────────────────────┐
+│                       Persistence & AI Adapters                         │
+│  - SQLite Engine & Migrations (lib/db.js, lib/migrations/)              │
+│  - Optional AI Isolation Adapter (lib/ai/provider.js - 100% offline)   │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
+
+| Module | Core File | Purpose |
+| :--- | :--- | :--- |
+| **Career DNA** | `lib/dna.js` | Models baseline identity, 14 seniority levels, constraints, and target career state |
+| **Skill Gap Engine** | `lib/skills.js` | 11 taxonomy categories with 5-tier ratings (`STRONG`, `ADEQUATE`, `DEVELOPING`, `MISSING`, `UNKNOWN`) |
+| **11D Job Evaluator** | `lib/evaluator.js` | Evaluates Skill, Seniority, Salary, Upside, Location, Risk, Opportunity Cost (`APPLY` / `PASS` / `MAYBE`) |
+| **Expanded Risk Engine** | `lib/risk.js` | Detects 17 distinct career risks (downleveling, underpayment, quotas, bureaucracy) |
+| **Evidence Wallet** | `lib/evidence.js` | Stores verified case studies and metrics; clearly separates missing skills from missing evidence |
+| **Next Best Move** | `lib/decision.js` | Identifies primary bottleneck and generates concrete 30/60/90-day execution plans |
+| **Career Simulator** | `lib/simulator.js` | Compares 8 paths (`STAY`, `PROMOTE`, `PIVOT`, `BUSINESS`) with 3-year income projections |
+| **Funnel Analytics** | `lib/analytics.js` | Tracks interview/offer conversion rates and calibrates success probability over time |
+| **Web Dashboard** | `dashboard/` | Port 3005 high-density executive panel with Flowbite SVG icons and zero telemetry |
 
 ---
 
-## 6. Installation
+### 🚀 Quickstart
 
-### Prerequisites
-- Node.js 18.x or higher
-- npm 9.x or higher
-
-### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/itisbehrouz/karmis.git
-
-# Enter project folder
-cd karmis
+git clone https://github.com/itisbehrouz/karmis.git && cd karmis
 
 # Install dependencies
 npm install
 
-# Initialize local database and baseline Career DNA
-node bin/karmis.js init
-```
-
----
-
-## 7. CLI
-
-```bash
-# Display general help
-node bin/karmis.js help
-
-# Initialize Career DNA and database
+# Initialize local SQLite database and baseline Career DNA
 node bin/karmis.js init
 
-# Inspect or import Career DNA
-node bin/karmis.js profile
-node bin/karmis.js profile import my-cv.json
-
-# Display baseline vs target state
-node bin/karmis.js career
-
-# Run skill gap analysis
-node bin/karmis.js gap
-
-# Inspect Evidence Wallet
-node bin/karmis.js evidence
-node bin/karmis.js evidence add "Enterprise BI Suite" "+45% reporting velocity"
-
-# Calculate single highest-leverage next move
-node bin/karmis.js next
-
-# Compare 8 career paths
-node bin/karmis.js simulate
-
-# Evaluate job posting (11 dimensions)
-node bin/karmis.js analyze "The Coca-Cola Company"
-node bin/karmis.js job path/to/job.json
-
-# Manage applications and synchronize CSV (ABSG)
-node bin/karmis.js applications
-node bin/karmis.js applications sync
-
-# View recruitment funnel analytics
-node bin/karmis.js analytics
-
-# Launch local web dashboard
+# Launch local dashboard
 node bin/karmis.js dashboard
 ```
 
----
-
-## 8. Dashboard
-
-Launch the local web dashboard:
-```bash
-node bin/karmis.js dashboard
-```
 Open `http://localhost:3005` in your browser.
 
-The dashboard answers five questions immediately:
-1. **Where am I?** (Career DNA and current seniority level)
-2. **Where am I going?** (Career Target and timeline)
-3. **What is blocking me?** (Skill Gaps and missing evidence)
-4. **Which opportunities are worth pursuing?** (11-dimension job decision engine)
-5. **What should I do next?** (Next Best Move and 30-day action plan)
+---
+
+### 💻 CLI Command Reference
+
+```bash
+# Baseline & Career State
+node bin/karmis.js profile              # Inspect current Career DNA
+node bin/karmis.js profile import cv.json # Import structured profile
+node bin/karmis.js career               # Display current vs target state
+
+# Decision Engines
+node bin/karmis.js gap                  # Execute 5-tier skill gap analysis
+node bin/karmis.js evidence             # View Evidence Wallet items
+node bin/karmis.js next                 # Compute single highest-leverage next move
+node bin/karmis.js simulate             # Compare 8 career simulation paths
+
+# Job Evaluation & Tracking
+node bin/karmis.js analyze <company>    # Run 11-dimension evaluation
+node bin/karmis.js job <job.json|txt>   # Parse job file and generate decision
+node bin/karmis.js applications         # View recruitment pipeline
+node bin/karmis.js applications sync    # Synchronize Google Drive CSV (ABSG)
+node bin/karmis.js analytics            # View interview/offer conversion rates
+```
 
 ---
 
-## 9. Privacy
+### 🧭 Dashboard Answers
 
-- **Local-Only**: Data stays inside `data/karmis.db` on your local machine.
-- **Offline Operations**: All calculations run locally without network requests.
-- **Zero Telemetry**: No tracking scripts or analytics collection.
-- **AI Optionality**: Operates completely without API keys.
-
-See [docs/KARMIS-PRIVACY.md](docs/KARMIS-PRIVACY.md) for details.
+The local dashboard immediately answers five strategic career questions:
+1. **Where am I?** (Current level, role, and market position)
+2. **Where am I going?** (Target role, target level, and timeline)
+3. **What is blocking me?** (Top skill gaps and evidence bottlenecks)
+4. **Which opportunities are worth pursuing?** (11-dimension job decision matrix)
+5. **What should I do next?** (Single highest-leverage action and 30/60/90-day plan)
 
 ---
 
-## 10. Development
+### 🔒 Privacy
 
-KARMİS uses standard Node.js without heavy frontend build tools.
-The architecture separates business logic into modular engines.
-All core decision modules reside in the `lib/` directory.
+- **100% Local-First:** All applicant profiles and job data stay inside `data/karmis.db`.
+- **Zero Telemetry:** No remote analytics, tracking scripts, or pixel pings.
+- **Offline Reliability:** All core scoring, gap, and risk calculations run completely offline without external network dependencies.
+- **AI Optionality:** Operates fully without third-party LLM API keys.
 
-Follow these instructions to set up the local development environment:
-1. Clone the repository to your local system.
-2. Install the project dependencies with `npm install`.
-3. Initialize the local SQLite database with `node bin/karmis.js init`.
-4. Start the dashboard server with `node bin/karmis.js dashboard`.
+Detailed policy: [docs/KARMIS-PRIVACY.md](docs/KARMIS-PRIVACY.md).
 
-Follow these engineering standards when you modify code:
-- Keep business logic deterministic and independent of external networks.
+---
+
+### 🛠️ Development
+
+KARMİS is written in modern, dependency-light Node.js. Business logic is organized into clean, deterministic modules inside `lib/`.
+
+```bash
+# Initialize local database schema
+node bin/karmis.js init
+
+# Start local development server
+node bin/karmis.js dashboard
+```
+
+Guidelines:
+- Maintain deterministic calculations for all scoring and penalty engines.
 - Keep the SQLite schema versioned through `lib/migrations/`.
-- Isolate all optional AI text formatting behind `lib/ai/provider.js`.
-- Use official Flowbite SVG icons for all user interface symbols.
+- Isolate any optional AI text completion behind `lib/ai/provider.js`.
+- Use official Flowbite SVG icons for all user interface components.
 
 ---
 
-## 11. Testing
+### 🧪 Testing
 
-KARMİS enforces automated test coverage across all decision engines.
-The test suite uses the Node.js native test runner (`node:test`).
+KARMİS enforces automated test coverage across all decision engines using the native Node.js test runner (`node:test`).
 
-Run the automated test suite with this command:
 ```bash
 npm test
 ```
 
-The automated test suite validates the following subsystems:
-- Multi-dimensional scoring across all 11 evaluation dimensions.
-- 17 career risk rules and penalty calculations.
-- 3-state decisions (`APPLY`, `PASS`, `MAYBE`).
-- Clear distinction between missing skills and missing evidence.
-- 8 career simulation paths and multi-step salary trajectories.
-- Next Best Move bottleneck identification and action plans.
-- SQLite database migrations and Google Drive CSV synchronization.
-- CLI command execution and argument parsing.
+Verification suite includes:
+- **12 Test Suites / 56 Subtests** passing with 0 failures
+- Multi-dimensional scoring across all 11 evaluation dimensions
+- 17 career risk rules and penalty filters
+- 3-state decisions (`APPLY`, `PASS`, `MAYBE`)
+- Skill gap analysis and evidence matching
+- 8 simulation scenarios and multi-step salary trajectories
+- Next Best Move bottleneck identification and action plans
+- SQLite migrations and CSV synchronization
+- CLI commands and HTTP dashboard API endpoints
 
 ---
 
-## 12. Roadmap
-
-KARMİS follows an open development plan divided into sequential phases:
+### 🗺️ Roadmap
 
 - **Phase 1 (Complete):** Architecture audit and baseline system analysis.
 - **Phase 2 (Complete):** Career DNA schema, target career state, and profile store.
@@ -253,11 +201,11 @@ KARMİS follows an open development plan divided into sequential phases:
 - **Phase 9 (Complete):** High-density local web dashboard with Flowbite SVG icons.
 - **Phase 10 (In Progress):** Multi-profile management, advanced export formats, and local LLM fine-tuning.
 
-See [docs/KARMIS-ROADMAP.md](docs/KARMIS-ROADMAP.md) for detailed milestone milestones and release schedules.
+Detailed roadmap: [docs/KARMIS-ROADMAP.md](docs/KARMIS-ROADMAP.md).
 
 ---
 
-## Documentation
+### 📚 Technical Documentation
 
 - [Architecture Audit](docs/KARMIS-V2-ARCHITECTURE-AUDIT.md)
 - [Domain Model](docs/KARMIS-DOMAIN-MODEL.md)
@@ -268,6 +216,6 @@ See [docs/KARMIS-ROADMAP.md](docs/KARMIS-ROADMAP.md) for detailed milestone mile
 
 ---
 
-## License
+### 📄 License
 
 MIT License. See [LICENSE](LICENSE) for details.
