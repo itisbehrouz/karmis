@@ -24,7 +24,7 @@
 
 ---
 
-### 🌐 Domain-Neutral by Design
+### <img src="docs/assets/icons/globe.svg" width="18" height="18" valign="middle" /> Domain-Neutral by Design
 
 KARMİS is not designed exclusively for software engineering. It models career progression neutrally across all industries:
 - **Domains:** Software & Data, Accounting & Finance, Sales & Marketing, Healthcare, Operations, HR, Legal, Consulting, Manufacturing.
@@ -32,7 +32,7 @@ KARMİS is not designed exclusively for software engineering. It models career p
 
 ---
 
-### 📐 5 Core Principles
+### <img src="docs/assets/icons/adjustments.svg" width="18" height="18" valign="middle" /> 5 Core Principles
 
 | # | Principle | Engineering Mandate |
 | :-: | :--- | :--- |
@@ -44,7 +44,7 @@ KARMİS is not designed exclusively for software engineering. It models career p
 
 ---
 
-### ⚡ Architecture & Core Engines
+### <img src="docs/assets/icons/cpu.svg" width="18" height="18" valign="middle" /> Architecture & Core Engines
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -81,7 +81,7 @@ KARMİS is not designed exclusively for software engineering. It models career p
 
 ---
 
-### 🚀 Quickstart
+### <img src="docs/assets/icons/terminal.svg" width="18" height="18" valign="middle" /> Quickstart
 
 ```bash
 # Clone the repository
@@ -101,7 +101,7 @@ Open `http://localhost:3005` in your browser.
 
 ---
 
-### 💻 CLI Command Reference
+### <img src="docs/assets/icons/code.svg" width="18" height="18" valign="middle" /> CLI Command Reference
 
 ```bash
 # Baseline & Career State
@@ -125,7 +125,7 @@ node bin/karmis.js analytics            # View interview/offer conversion rates
 
 ---
 
-### 🧭 Dashboard Answers
+### <img src="docs/assets/icons/chart.svg" width="18" height="18" valign="middle" /> Executive Dashboard
 
 The local dashboard immediately answers five strategic career questions:
 1. **Where am I?** (Current level, role, and market position)
@@ -136,7 +136,7 @@ The local dashboard immediately answers five strategic career questions:
 
 ---
 
-### 🔒 Privacy
+### <img src="docs/assets/icons/shield.svg" width="18" height="18" valign="middle" /> Privacy & Security
 
 - **100% Local-First:** All applicant profiles and job data stay inside `data/karmis.db`.
 - **Zero Telemetry:** No remote analytics, tracking scripts, or pixel pings.
@@ -147,7 +147,7 @@ Detailed policy: [docs/KARMIS-PRIVACY.md](docs/KARMIS-PRIVACY.md).
 
 ---
 
-### 🛠️ Development
+### <img src="docs/assets/icons/terminal.svg" width="18" height="18" valign="middle" /> Development
 
 KARMİS is written in modern, dependency-light Node.js. Business logic is organized into clean, deterministic modules inside `lib/`.
 
@@ -167,7 +167,7 @@ Guidelines:
 
 ---
 
-### 🧪 Testing
+### <img src="docs/assets/icons/beaker.svg" width="18" height="18" valign="middle" /> Automated Testing
 
 KARMİS enforces automated test coverage across all decision engines using the native Node.js test runner (`node:test`).
 
@@ -188,7 +188,7 @@ Verification suite includes:
 
 ---
 
-### 🗺️ Roadmap
+### <img src="docs/assets/icons/map.svg" width="18" height="18" valign="middle" /> Product Roadmap
 
 - **Phase 1 (Complete):** Architecture audit and baseline system analysis.
 - **Phase 2 (Complete):** Career DNA schema, target career state, and profile store.
@@ -205,7 +205,7 @@ Detailed roadmap: [docs/KARMIS-ROADMAP.md](docs/KARMIS-ROADMAP.md).
 
 ---
 
-### 📚 Technical Documentation
+### <img src="docs/assets/icons/book.svg" width="18" height="18" valign="middle" /> Technical Documentation
 
 - [Architecture Audit](docs/KARMIS-V2-ARCHITECTURE-AUDIT.md)
 - [Domain Model](docs/KARMIS-DOMAIN-MODEL.md)
@@ -216,6 +216,6 @@ Detailed roadmap: [docs/KARMIS-ROADMAP.md](docs/KARMIS-ROADMAP.md).
 
 ---
 
-### 📄 License
+### <img src="docs/assets/icons/scale.svg" width="18" height="18" valign="middle" /> License
 
 MIT License. See [LICENSE](LICENSE) for details.
