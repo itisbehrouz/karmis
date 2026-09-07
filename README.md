@@ -7,10 +7,10 @@
 *Know where you are. Know where you can go. Know what to do next.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests: 56 passed](https://img.shields.io/badge/Tests-56%20passed-success.svg)](#-testing)
-[![Privacy: Local--First](https://img.shields.io/badge/Privacy-Local--First%20(SQLite)-brightgreen.svg)](#-privacy)
+[![Tests: 56 passed](https://img.shields.io/badge/Tests-56%20passed-success.svg)](#automated-testing)
+[![Privacy: Local--First](https://img.shields.io/badge/Privacy-Local--First%20(SQLite)-brightgreen.svg)](#privacy--security)
 [![Node.js: >=18.0.0](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-blue.svg)](package.json)
-[![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero-lightgrey.svg)](#-privacy)
+[![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero-lightgrey.svg)](#privacy--security)
 
 <br />
 
@@ -32,7 +32,7 @@ KARMİS is not designed exclusively for software engineering. It models career p
 
 ---
 
-### <img src="docs/assets/icons/adjustments.svg" width="18" height="18" valign="middle" /> 5 Core Principles
+### <img src="docs/assets/icons/sliders-horizontal.svg" width="18" height="18" valign="middle" /> 5 Core Principles
 
 | # | Principle | Engineering Mandate |
 | :-: | :--- | :--- |
@@ -125,7 +125,7 @@ node bin/karmis.js analytics            # View interview/offer conversion rates
 
 ---
 
-### <img src="docs/assets/icons/chart.svg" width="18" height="18" valign="middle" /> Executive Dashboard
+### <img src="docs/assets/icons/bar-chart-3.svg" width="18" height="18" valign="middle" /> Executive Dashboard
 
 The local dashboard immediately answers five strategic career questions:
 1. **Where am I?** (Current level, role, and market position)
@@ -136,7 +136,7 @@ The local dashboard immediately answers five strategic career questions:
 
 ---
 
-### <img src="docs/assets/icons/shield.svg" width="18" height="18" valign="middle" /> Privacy & Security
+### <img src="docs/assets/icons/shield-check.svg" width="18" height="18" valign="middle" /> Privacy & Security
 
 - **100% Local-First:** All applicant profiles and job data stay inside `data/karmis.db`.
 - **Zero Telemetry:** No remote analytics, tracking scripts, or pixel pings.
@@ -147,7 +147,7 @@ Detailed policy: [docs/KARMIS-PRIVACY.md](docs/KARMIS-PRIVACY.md).
 
 ---
 
-### <img src="docs/assets/icons/terminal.svg" width="18" height="18" valign="middle" /> Development
+### <img src="docs/assets/icons/wrench.svg" width="18" height="18" valign="middle" /> Development
 
 KARMİS is written in modern, dependency-light Node.js. Business logic is organized into clean, deterministic modules inside `lib/`.
 
@@ -167,7 +167,7 @@ Guidelines:
 
 ---
 
-### <img src="docs/assets/icons/beaker.svg" width="18" height="18" valign="middle" /> Automated Testing
+### <img src="docs/assets/icons/flask-conical.svg" width="18" height="18" valign="middle" /> Automated Testing
 
 KARMİS enforces automated test coverage across all decision engines using the native Node.js test runner (`node:test`).
 
@@ -205,7 +205,7 @@ Detailed roadmap: [docs/KARMIS-ROADMAP.md](docs/KARMIS-ROADMAP.md).
 
 ---
 
-### <img src="docs/assets/icons/book.svg" width="18" height="18" valign="middle" /> Technical Documentation
+### <img src="docs/assets/icons/book-open.svg" width="18" height="18" valign="middle" /> Technical Documentation
 
 - [Architecture Audit](docs/KARMIS-V2-ARCHITECTURE-AUDIT.md)
 - [Domain Model](docs/KARMIS-DOMAIN-MODEL.md)
