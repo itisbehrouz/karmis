@@ -6,11 +6,9 @@
 
 *Know where you are. Know where you can go. Know what to do next.*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests: 56 passed](https://img.shields.io/badge/Tests-56%20passed-success.svg)](#automated-testing)
-[![Privacy: Local--First](https://img.shields.io/badge/Privacy-Local--First%20(SQLite)-brightgreen.svg)](#privacy--security)
-[![Node.js: >=18.0.0](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-blue.svg)](package.json)
-[![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero-lightgrey.svg)](#privacy--security)
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=nodejs,sqlite,js,html,css,git" alt="KARMİS Tech Stack" height="42" />
+</p>
 
 <br />
 
